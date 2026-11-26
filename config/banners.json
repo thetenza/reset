@@ -1,0 +1,5 @@
+[
+  { "scene": "sunset", "eyebrow": "Главный раздел", "title": "GTA", "text": "Издания, ключи и активации для PlayStation, Xbox и PC.", "cta": "Перейти в раздел", "href": "/c/gta", "image": null },
+  { "scene": "waves", "eyebrow": "RESET", "title": "Игры и сервисы", "text": "Новые разделы: игры, пополнения и подписки. Цена видна до оплаты.", "cta": "Смотреть каталог", "href": "/c/games", "image": null },
+  { "scene": "night", "eyebrow": "Скоро", "title": "PlayStation · Xbox", "text": "Пополнение кошельков и подписки — раздел готовится к запуску.", "cta": "Подробнее", "href": "/c/topup", "image": null }
+]

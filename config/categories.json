@@ -1,0 +1,6 @@
+[
+  { "id": "cat_gta", "slug": "gta", "name": "GTA", "short": "Игры, издания и пополнения для GTA", "theme": "vice", "chip_attr": "Платформа", "sort": 1 },
+  { "id": "cat_games", "slug": "games", "name": "Игры", "short": "Ключи и активации игр", "sort": 2 },
+  { "id": "cat_topup", "slug": "topup", "name": "Пополнение", "short": "Пополнение кошельков и сервисов", "sort": 3 },
+  { "id": "cat_subs", "slug": "subscriptions", "name": "Подписки", "short": "Игровые и другие подписки", "sort": 4 }
+]
