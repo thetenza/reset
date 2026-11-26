@@ -60,9 +60,23 @@ const readJson = (file, fallback) => { try { return JSON.parse(fs.readFileSync(p
 
 // ---------- Витрина ----------
 app.get('/', async (req, res) => {
-  const [featured, counts] = await Promise.all([catalog.featured(12), catalog.categoryCounts()]);
-  res.send(String(views.homePage({ user: req.user, categories: req.cats, counts, featured, demo: catalog.isDemoStorefront(),
-    reviews: catalog.allReviews(6), faq: readJson('faq.json', []), banners: readJson('banners.json', []).slice(0, 5), tiles: readJson('tiles.json', []) })));
+  const sort = ['popular', 'price_asc', 'price_desc'].includes(req.query.sort) ? req.query.sort : 'popular';
+  const cat = typeof req.query.cat === 'string' ? catalog.getCategoryBySlug(req.query.cat) : null;
+  let featured;
+  if (cat) featured = (await catalog.categoryProducts(cat, { sort })).list.slice(0, 18);
+  else {
+    featured = await catalog.featured(18);
+    if (sort !== 'popular') featured = (await catalog.categoryProducts(null, { sort })).list.filter((p) => featured.includes(p) || p.row.featured).slice(0, 18);
+  }
+  res.send(String(views.homePage({ user: req.user, categories: req.cats, featured, demo: catalog.isDemoStorefront(), sort, catFilter: cat?.slug || '',
+    reviews: catalog.allReviews(6), faq: readJson('faq.json', []), banners: readJson('banners.json', []).slice(0, 6),
+    tiles: readJson('tiles.json', []), quicklinks: readJson('quicklinks.json', []), topup: readJson('topup.json', []) })));
+});
+
+app.get('/favorites', async (req, res) => {
+  const slugs = typeof req.query.s === 'string' ? req.query.s.split(',').filter((x) => /^[a-z0-9-]{1,64}$/.test(x)).slice(0, 60) : null;
+  const all = slugs ? (await catalog.categoryProducts(null)).list.filter((p) => slugs.includes(p.row.slug)) : [];
+  res.send(String(views.favoritesPage({ user: req.user, categories: req.cats, list: all, loaded: Boolean(slugs) })));
 });
 
 const notFound = (req, res, title = 'Страница не найдена', text = 'Такой страницы нет. Посмотрите товары на главной.') =>

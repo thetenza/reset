@@ -1,0 +1,8 @@
+[
+  { "name": "Steam", "icon": "wallet", "slug": null, "rate": 1.074, "currencies": ["RUB", "KZT", "USD"], "chips": [500, 1000, 2000], "min": 100, "max": 50000, "loginLabel": "Логин Steam", "loginHelp": "Логин — имя, с которым вы входите в Steam (не никнейм в профиле)." },
+  { "name": "GTA VI", "icon": "gamepad", "slug": null, "rate": 1.0, "currencies": ["RUB"], "chips": [1000, 3000, 5000], "min": 500, "max": 50000, "loginLabel": "Email аккаунта", "loginHelp": "Email аккаунта, на который нужно пополнение." },
+  { "name": "PlayStation", "icon": "card", "slug": null, "rate": 1.0, "currencies": ["TRY", "INR", "USD"], "chips": [500, 1000, 2000], "min": 100, "max": 20000, "loginLabel": "Email PSN", "loginHelp": "Email, к которому привязан аккаунт PlayStation." },
+  { "name": "Xbox", "icon": "gamepad", "slug": null, "rate": 1.0, "currencies": ["USD", "TRY"], "chips": [10, 25, 50], "min": 5, "max": 500, "loginLabel": "Email Microsoft", "loginHelp": "Email учётной записи Microsoft." },
+  { "name": "Telegram", "icon": "send", "slug": null, "rate": 1.0, "currencies": ["RUB"], "chips": [100, 500, 1000], "min": 50, "max": 10000, "loginLabel": "@username", "loginHelp": "Имя пользователя Telegram, начинается с @." },
+  { "name": "Apple", "icon": "apple", "slug": null, "rate": 1.0, "currencies": ["USD", "TRY"], "chips": [10, 25, 50], "min": 5, "max": 500, "loginLabel": "Apple ID", "loginHelp": "Email вашего Apple ID." }
+]

@@ -1,0 +1,9 @@
+[
+  { "title": "Донат", "href": "/search?q=донат", "icon": "gem" },
+  { "title": "Товары GTA", "href": "/c/gta", "icon": "gamepad" },
+  { "title": "Пополнение PSN", "href": "/search?q=PSN", "icon": "card" },
+  { "title": "Roblox", "href": "/search?q=Roblox", "icon": "cube" },
+  { "title": "Пополнение Steam", "href": "/search?q=Steam", "icon": "wallet" },
+  { "title": "Telegram Stars", "href": "/search?q=Telegram", "icon": "star" },
+  { "title": "Apple Gift Card", "href": "/search?q=Apple", "icon": "gift" }
+]

@@ -61,6 +61,22 @@
     });
   } catch {}
 
+  // Предзаполнение из виджета пополнения: ?amount=1000&login=name
+  try {
+    const q = new URLSearchParams(location.search);
+    const amt = q.get('amount'), login = q.get('login');
+    form.querySelectorAll('.field').forEach((f) => {
+      const label = (f.querySelector('.label')?.textContent || '').toLowerCase();
+      const inputs = [...f.querySelectorAll('[data-opt]')];
+      if (login && /логин|login|email|почт|username|apple id|аккаунт/.test(label)) inputs.forEach((el) => { if (el.type === 'text') el.value = login; });
+      if (amt && /сумм|amount|номинал|количеств|пополн/.test(label)) inputs.forEach((el) => {
+        if (el.type === 'text') el.value = amt;
+        else if (el.tagName === 'SELECT') { const o = [...el.options].find((x) => x.textContent.replace(/\s/g, '').includes(amt)); if (o) el.value = o.value; }
+        else if (el.type === 'radio' && el.nextElementSibling?.textContent.replace(/\s/g, '').includes(amt)) el.checked = true;
+      });
+    });
+  } catch {}
+
   form.addEventListener('input', () => { confirmedPrice = null; show(''); update(); });
   update();
 

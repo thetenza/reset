@@ -1,13 +1,10 @@
 [
-  { "name": "GTA VI", "href": "/c/gta", "style": "vice", "glyph": "VI" },
-  { "name": "PlayStation", "href": "/search?q=PlayStation", "style": "ps", "glyph": "PS" },
-  { "name": "Xbox Game Pass", "href": "/search?q=Xbox", "style": "xbox", "glyph": "XB" },
-  { "name": "Spotify Premium", "href": "/search?q=Spotify", "style": "spotify", "glyph": "SP" },
-  { "name": "ChatGPT", "href": "/search?q=ChatGPT", "style": "gpt", "glyph": "AI" },
-  { "name": "Claude", "href": "/search?q=Claude", "style": "claude", "glyph": "C" },
-  { "name": "Roblox", "href": "/search?q=Roblox", "style": "roblox", "glyph": "RB" },
-  { "name": "Steam", "href": "/search?q=Steam", "style": "steam", "glyph": "ST" },
-  { "name": "Telegram Premium", "href": "/search?q=Telegram", "style": "tg", "glyph": "TG" },
-  { "name": "Battle.net", "href": "/search?q=Battle.net", "style": "bnet", "glyph": "BN" },
-  { "name": "Apple", "href": "/search?q=Apple", "style": "apple", "glyph": "AP" }
+  { "name": "GTA VI", "href": "/c/gta", "style": "vice", "glyph": "VI", "image": null },
+  { "name": "PlayStation", "href": "/search?q=PlayStation", "style": "ps", "glyph": "PS", "image": null },
+  { "name": "Steam", "href": "/search?q=Steam", "style": "steam", "glyph": "ST", "image": null },
+  { "name": "Spotify", "href": "/search?q=Spotify", "style": "spotify", "glyph": "SP", "image": null },
+  { "name": "Xbox", "href": "/search?q=Xbox", "style": "xbox", "glyph": "XB", "image": null },
+  { "name": "ChatGPT", "href": "/search?q=ChatGPT", "style": "gpt", "glyph": "AI", "image": null },
+  { "name": "Claude", "href": "/search?q=Claude", "style": "claude", "glyph": "C", "image": null },
+  { "name": "Roblox", "href": "/search?q=Roblox", "style": "roblox", "glyph": "RB", "image": null }
 ]

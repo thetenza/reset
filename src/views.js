@@ -1,6 +1,6 @@
 import { html, raw, paragraphs, formatPrice, formatDate } from './html.js';
 import { config } from './config.js';
-import { RESET_PATH, WORDMARK } from './logo.js';
+import { LOGO2 } from './logo.js';
 import { wavesSvg } from './waves.js';
 import { scenes } from './scenes.js';
 import { SORTS } from './catalog.js';
@@ -8,37 +8,59 @@ import { SORTS } from './catalog.js';
 const S = config.support;
 
 // ---------- Иконки и знак ----------
-const mark = (cls = 'mark') => raw(`<svg class="${cls}" viewBox="0 0 1110 1277" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="${RESET_PATH}"/></svg>`);
-const wordmark = () => raw(`<svg class="wordmark" viewBox="0 0 ${WORDMARK.w} ${WORDMARK.h}" role="img" aria-label="${config.brand}"><path fill="currentColor" fill-rule="evenodd" d="${WORDMARK.d}"/></svg>`);
+const mark = (cls = 'mark') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.markW} ${LOGO2.h}" aria-hidden="true"><path fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path fill="#ffa36b" d="${LOGO2.light}"/></svg>`);
+// Полный логотип: знак — фирменный оранжевый, надпись — цвет текста (белая в тёмной теме)
+const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.w} ${LOGO2.h}" role="img" aria-label="${config.brand}"><path fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path fill="#ffa36b" d="${LOGO2.light}"/><path fill="currentColor" fill-rule="evenodd" d="${LOGO2.black}"/></svg>`);
 const svgIcon = (d, size = 20) => raw(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`);
 const icon = {
   arrow: svgIcon('<path d="M5 12h14M13 6l6 6-6 6"/>', 16),
+  chevL: svgIcon('<path d="M15 6l-6 6 6 6"/>', 20),
+  chevR: svgIcon('<path d="M9 6l6 6-6 6"/>', 20),
+  chevD: svgIcon('<path d="M6 9l6 6 6-6"/>', 16),
   chat: svgIcon('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>', 18),
-  user: svgIcon('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
-  box: svgIcon('<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>'),
-  menu: svgIcon('<path d="M4 7h16M4 12h16M4 17h16"/>'),
+  help: svgIcon('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.2M12 17h.01"/>', 18),
+  user: svgIcon('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', 18),
+  box: svgIcon('<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>', 18),
+  grid: svgIcon('<rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/>', 18),
   search: svgIcon('<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>', 18),
+  heart: svgIcon('<path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5c-2.2 4.6-9.2 9-9.2 9z"/>', 18),
+  sun: svgIcon('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', 18),
+  moon: svgIcon('<path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/>', 18),
   shield: svgIcon('<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>', 22),
-  bolt: svgIcon('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', 22),
-  tag: svgIcon('<path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/>', 22),
   sort: svgIcon('<path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/>', 18),
   filter: svgIcon('<path d="M4 6h16M7 12h10M10 18h4"/>', 18),
 };
+// Значки для плашек и вкладок (простые, без чужих логотипов)
+const glyphs = {
+  gem: '<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 18 3-18"/>',
+  gamepad: '<rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3M15.5 12h.01M18 13.5h.01"/>',
+  card: '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/>',
+  cube: '<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+  wallet: '<path d="M3 7a2 2 0 0 1 2-2h13v4"/><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 13.5h2"/>',
+  star: '<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/>',
+  gift: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8c-1.5-3-5-3-5-1s3 1 5 1zm0 0c1.5-3 5-3 5-1s-3 1-5 1z"/>',
+  send: '<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>',
+  bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+  play: '<circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4z"/>',
+  apple: '<path d="M16 3c-1 0-2.5.8-3 2 1.2.1 2.6-.7 3-2zM12 7c-1-.6-2-1-3-1-3 0-5 2.5-5 6 0 4 3 9 5 9 1 0 1.5-.5 3-.5s2 .5 3 .5c2 0 4-4 4.5-6-2-1-3-2.6-3-4.5 0-1.6.9-2.9 2-3.6C17.6 6.4 16.4 6 15 6c-1 0-2 .4-3 1z"/>',
+};
+const glyph = (name, size = 22) => svgIcon(glyphs[name] || glyphs.bolt, size);
 
-const salesLabel = (n) => (n == null ? null : n >= 1000 ? `${Math.floor(n / 1000)} ${'000'}+ продаж` : `${n} ${plural(n, 'продажа', 'продажи', 'продаж')}`);
+const salesLabel = (n) => (n == null ? null : n < 100 ? 'Меньше 100 продаж' : `${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'продажа', 'продажи', 'продаж')}`);
 const plural = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
 
 // ---------- Каркас ----------
-export function layout({ title, description, user, body, scripts = [], noindex = false, categories = [], q = '', theme = '' }) {
+export function layout({ title, description, user, body, scripts = [], noindex = false, categories = [], q = '', theme = '', home = false }) {
   return html`<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#ffffff">
-<title>${title ? `${title} — ${config.brand}` : `${config.brand} — цифровые товары`}</title>
+<meta name="color-scheme" content="light dark">
+<title>${title ? `${title} — ${config.brand}` : `${config.brand} — игры, подписки и сервисы`}</title>
 ${description ? html`<meta name="description" content="${description}">` : ''}
 ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
+<script src="/static/theme.js"></script>
 <link rel="stylesheet" href="/static/styles.css">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 </head>
@@ -46,66 +68,51 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
 ${config.demo ? raw('<div class="demo-banner" role="note">Демо-режим: Digiseller не подключён. Товары с пометкой «Демо» — примеры, покупка недоступна.</div>') : ''}
 <header class="site-header">
   <div class="wrap header-row">
-    <a class="logo" href="/" aria-label="${config.brand} — на главную">${wordmark()}</a>
+    <a class="logo" href="/" aria-label="${config.brand} — на главную">${logo()}</a>
     <details class="catalog-menu">
-      <summary class="btn btn-catalog">${icon.menu}<span>Каталог</span></summary>
+      <summary class="btn btn-catalog">${icon.grid}<span>Каталог</span></summary>
       <div class="catalog-pop">
         ${categories.map((c) => html`<a class="catalog-item" href="/c/${c.slug}"><span class="cat-ico cat-ico-${c.theme}">${c.name.slice(0, 1)}</span><span><b>${c.name}</b>${c.short ? html`<small>${c.short}</small>` : ''}</span></a>`)}
       </div>
     </details>
     <form class="search" action="/search" method="get" role="search">
-      ${icon.search}<input type="search" name="q" value="${q}" placeholder="Найти товар" aria-label="Поиск товаров" minlength="2" maxlength="80">
+      ${icon.search}<input type="search" name="q" value="${q}" placeholder="Найти игру, подписку или сервис" aria-label="Поиск товаров" minlength="2" maxlength="80">
     </form>
     <nav class="head-actions" aria-label="Аккаунт">
-      <a href="/support" class="ha">${icon.chat}<span>Помощь</span></a>
+      <a href="/support" class="ha">${icon.help}<span>Помощь</span></a>
       <a href="${user ? '/account' : '/login?next=/account'}" class="ha">${icon.box}<span>Заказы</span></a>
+      <a href="/favorites" class="ha ha-fav" aria-label="Избранное">${icon.heart}<span>Избранное</span></a>
       <a href="${user ? '/account' : '/login'}" class="ha">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
+      <button type="button" class="ha theme-toggle" data-theme-toggle aria-label="Переключить тему" title="Светлая / тёмная тема"><span class="ico-sun">${icon.sun}</span><span class="ico-moon">${icon.moon}</span></button>
     </nav>
   </div>
-  ${categories.length ? html`<nav class="wrap quicknav" aria-label="Категории">
+  ${!home && categories.length ? html`<nav class="wrap quicknav" aria-label="Категории">
     ${categories.map((c) => html`<a href="/c/${c.slug}" class="qn qn-${c.theme}"><span class="cat-ico cat-ico-${c.theme}">${c.name.slice(0, 1)}</span>${c.name}</a>`)}
-    <a href="/support" class="qn"><span class="cat-ico">?</span>Поддержка</a>
   </nav>` : ''}
 </header>
 <main id="main" class="${theme ? `theme-${theme}` : ''}">${body}</main>
 <footer class="site-footer">
-  <div class="wrap footer-grid">
-    <div>
-      <a class="logo" href="/">${wordmark()}</a>
-      <p class="muted small">Цифровые товары с оплатой и выдачей через Digiseller.</p>
-      ${config.legal.ownerName ? html`<p class="muted small">${config.legal.ownerName}</p>` : ''}
-      ${config.legal.ownerDetails ? html`<p class="muted small">${config.legal.ownerDetails}</p>` : ''}
-    </div>
-    <div>
-      <h3 class="footer-h">Каталог</h3>
-      <ul class="plain">${categories.map((c) => html`<li><a href="/c/${c.slug}">${c.name}</a></li>`)}</ul>
-    </div>
-    <div>
-      <h3 class="footer-h">Помощь</h3>
-      <ul class="plain">
-        <li><a href="/support">Написать в поддержку</a></li>
-        ${S.email ? html`<li><a href="mailto:${S.email}">${S.email}</a></li>` : ''}
-        ${S.publicTelegram ? html`<li><a href="https://t.me/${S.publicTelegram.replace(/^@/, '')}" rel="noopener">${S.publicTelegram}</a></li>` : ''}
-        ${S.hours ? html`<li class="muted small">${S.hours}</li>` : ''}
-      </ul>
-    </div>
-    <div>
-      <h3 class="footer-h">Документы</h3>
-      <ul class="plain">
-        <li><a href="/docs/rules">Правила</a></li>
-        <li><a href="/docs/offer">Публичная оферта</a></li>
-        <li><a href="/docs/privacy">Политика конфиденциальности</a></li>
-      </ul>
-    </div>
+  <div class="wrap footer-row">
+    <a class="logo" href="/">${logo()}</a>
+    <nav class="footer-links" aria-label="Подвал">
+      <a href="${categories[0] ? `/c/${categories[0].slug}` : '/'}">Каталог</a>
+      <a href="/support">Помощь</a>
+      <a href="/docs/rules">Правила</a>
+      <a href="/support#contacts">Контакты</a>
+    </nav>
+    <a class="footer-chat" href="/support" aria-label="Написать в поддержку">${icon.chat}</a>
   </div>
-  <div class="wrap footer-bottom muted small">© ${new Date().getFullYear()} ${config.brand}. Оплата и выдача товаров — через Digiseller.</div>
+  <div class="wrap footer-bottom muted small">
+    <span>© ${new Date().getFullYear()} ${config.brand}. Оплата и выдача товаров — через Digiseller.</span>
+    <span><a href="/docs/offer">Оферта</a> · <a href="/docs/privacy">Конфиденциальность</a>${S.email ? html` · <a href="mailto:${S.email}">${S.email}</a>` : ''}</span>
+  </div>
 </footer>
 ${['/static/site.js', ...scripts].map((s) => html`<script src="${s}" defer></script>`)}
 </body>
 </html>`;
 }
 
-// ---------- Карточка товара (как в маркетплейсах) ----------
+// ---------- Карточка товара ----------
 export function productCard(p) {
   const img = p.images[0];
   const href = `/p/${p.row.slug}`;
@@ -116,12 +123,12 @@ export function productCard(p) {
       ${p.row.badge ? html`<span class="pbadge">${p.row.badge}</span>` : ''}
       ${p.state === 'unavailable' ? html`<span class="pbadge pbadge-muted">Нет в наличии</span>` : ''}
     </a>
+    <button type="button" class="fav" data-fav="${p.row.slug}" aria-label="В избранное" aria-pressed="false">${icon.heart}</button>
     <div class="pcard-body">
-      ${p.row.kind ? html`<div class="pcard-kind">${p.row.kind}</div>` : ''}
       ${p.state === 'error' ? html`<div class="pcard-price pcard-price-err">Цена уточняется</div>`
-        : p.live ? html`<div class="pcard-price">${formatPrice(p.live.price, p.live.currency)}</div>` : ''}
+        : p.live ? html`<div class="pcard-price">${formatPrice(p.live.price, p.live.currency).replace(',00', '')}</div>` : ''}
       <a class="pcard-title" href="${href}">${p.title}</a>
-      ${sold ? html`<div class="pcard-sales" title="По данным Digiseller">${sold}</div>` : ''}
+      <div class="pcard-sales" ${sold ? raw('title="По данным Digiseller"') : ''}>${sold || p.row.kind || ''}</div>
       <a class="btn btn-buy" href="${href}">${p.state === 'available' ? 'Купить' : 'Подробнее'}</a>
     </div>
   </article>`;
@@ -160,61 +167,78 @@ const heroScene = (name) => name === 'waves'
   : scenes[name === 'night' ? 0 : name === 'pier' ? 2 : 1];
 
 // ---------- Главная ----------
-export function homePage({ user, categories, counts, featured, reviews, faq, demo, banners = [], tiles = [] }) {
-  const main = categories.find((c) => c.theme === 'vice') || categories[0];
-  const others = categories.filter((c) => c !== main);
+export function homePage({ user, categories, featured, reviews, faq, demo, banners = [], tiles = [], quicklinks = [], topup = [], sort = 'popular', catFilter = '' }) {
+  const sortNames = { popular: 'Популярные', price_asc: 'Сначала дешевле', price_desc: 'Сначала дороже' };
   return layout({
-    user, categories,
-    description: `${config.brand} — цифровые товары: игры, ключи, пополнения. Оплата и получение через Digiseller.`,
-    scripts: ['/static/hero.js'],
+    user, categories, home: true,
+    description: `${config.brand} — игры, подписки и пополнение сервисов. Оплата и получение через Digiseller.`,
+    scripts: ['/static/hero.js', '/static/topup.js'],
     body: html`
-<section class="wrap hero" data-hero aria-roledescription="карусель" aria-label="Анонсы">
+<nav class="wrap plaques" aria-label="Быстрые разделы">
+  ${quicklinks.map((q) => html`<a class="plaque" href="${q.href}"><span class="plaque-title">${q.title}</span><span class="plaque-ico">${glyph(q.icon, 24)}</span></a>`)}
+</nav>
+
+${banners.length ? html`<section class="wrap hero" data-hero aria-roledescription="карусель" aria-label="Анонсы">
   <div class="hero-stage">
-  ${banners.map((bn, i) => html`<a class="hslide ${i === 0 ? 'is-active' : ''}" href="${bn.href}" ${i ? raw('aria-hidden="true" tabindex="-1"') : ''}>
-    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" alt="">` : raw(heroScene(bn.scene))}</span>
-    <span class="hslide-text">
-      <span class="hs-eyebrow">${bn.eyebrow}</span>
+  ${banners.map((bn, i) => html`<a class="hslide ${i === 0 ? 'is-active' : ''} ${bn.image && !bn.title ? 'hslide-clean' : ''}" href="${bn.href}" ${i ? raw('aria-hidden="true" tabindex="-1"') : ''}>
+    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" alt="${bn.alt || ''}" ${i ? 'loading="lazy"' : ''}>` : raw(heroScene(bn.scene))}</span>
+    ${bn.title ? html`<span class="hslide-text">
+      ${bn.eyebrow ? html`<span class="hs-eyebrow">${bn.eyebrow}</span>` : ''}
       <span class="hs-title">${bn.title}</span>
-      <span class="hs-sub">${bn.text}</span>
-      <span class="btn btn-dark btn-arrow">${bn.cta}</span>
-    </span>
+      ${bn.text ? html`<span class="hs-sub">${bn.text}</span>` : ''}
+      ${bn.cta ? html`<span class="btn btn-pill">${bn.cta} ${icon.arrow}</span>` : ''}
+    </span>` : ''}
   </a>`)}
+  ${banners.length > 1 ? html`
+    <button type="button" class="hero-arrow hero-prev" data-prev aria-label="Предыдущий баннер">${icon.chevL}</button>
+    <button type="button" class="hero-arrow hero-next" data-next aria-label="Следующий баннер">${icon.chevR}</button>
+    <div class="hero-dots" role="tablist">${banners.map((bn, i) => html`<button type="button" role="tab" class="hdot ${i === 0 ? 'is-active' : ''}" data-go="${i}" aria-label="Баннер ${i + 1}" aria-selected="${i === 0}"><span></span></button>`)}</div>` : ''}
   </div>
-  ${banners.length > 1 ? html`<div class="hero-tabs" role="tablist">${banners.map((bn, i) => html`<button type="button" role="tab" class="htab ${i === 0 ? 'is-active' : ''}" data-go="${i}" aria-selected="${i === 0}"><span class="htab-bar"><span></span></span><span class="htab-label">${bn.title}</span></button>`)}</div>` : ''}
+</section>` : ''}
+
+<section class="wrap tiles" aria-label="Популярные игры и сервисы">
+  ${tiles.slice(0, 8).map((t) => html`<a class="tile tile-${t.style} ${t.image ? 'tile-img' : ''}" href="${t.href}">
+    ${t.image ? html`<img src="${t.image}" alt="" loading="lazy">` : html`<span class="tile-glyph" aria-hidden="true">${t.glyph}</span>`}
+    <span class="tile-name">${t.name}</span></a>`)}
 </section>
 
-<section class="wrap tiles-wrap" aria-label="Популярные игры и сервисы">
-  <button type="button" class="tiles-arrow tiles-prev" data-tiles-prev aria-label="Прокрутить назад">${icon.arrow}</button>
-  <div class="tiles" data-tiles>
-    ${tiles.map((t) => html`<a class="tile tile-${t.style}" href="${t.href}"><span class="tile-glyph" aria-hidden="true">${t.glyph}</span><span class="tile-name">${t.name}</span></a>`)}
+${topup.length ? html`<section class="wrap" aria-label="Пополнение сервисов">
+  <div class="topup" data-topup>
+    <div class="topup-head">Пополнение сервисов</div>
+    <div class="topup-tabs" role="tablist">
+      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${glyph(t.icon, 16)}</span>${t.name}</button>`)}
+    </div>
+    <form class="topup-body" data-topup-form novalidate>
+      <div class="tp-amount">
+        <label class="tp-field"><span>Сумма пополнения</span><input type="text" inputmode="numeric" name="amount" value="${topup[0].chips?.[1] ?? 1000}" autocomplete="off"></label>
+        <div class="tp-chips" data-chips></div>
+      </div>
+      <label class="tp-field tp-cur"><span>Валюта</span><select name="currency" data-currency></select></label>
+      <div class="tp-login">
+        <label class="tp-field"><span data-login-label>Логин</span><input type="text" name="login" autocomplete="off" data-login></label>
+        <a href="/support" class="tp-help small" data-login-help>Как узнать логин?</a>
+      </div>
+      <div class="tp-buy">
+        <button type="submit" class="btn btn-big tp-btn" data-buy>Купить</button>
+        <span class="tp-note small muted" data-note>Итоговая цена — перед оплатой</span>
+      </div>
+    </form>
+    <script type="application/json" id="topup-data">${raw(JSON.stringify(topup).replace(/</g, '\\u003c'))}</script>
   </div>
-  <button type="button" class="tiles-arrow" data-tiles-next aria-label="Прокрутить вперёд">${icon.arrow}</button>
-</section>
+</section>` : ''}
 
-<section class="wrap section">
-  <div class="section-head"><h2>Популярное</h2>${main ? html`<a class="more" href="/c/${main.slug}">Все товары ${icon.arrow}</a>` : ''}</div>
+<section class="wrap section" id="popular">
+  <div class="section-head">
+    <h2>Чаще покупают</h2>
+    <div class="section-tools">
+      <details class="dd"><summary class="btn btn-pill btn-small">${catFilter ? (categories.find((c) => c.slug === catFilter)?.name || 'Категория') : 'Категория'} ${icon.chevD}</summary>
+        <div class="dd-pop"><a href="/?sort=${sort}#popular" class="${!catFilter ? 'is-on' : ''}">Все</a>${categories.map((c) => html`<a href="/?cat=${c.slug}&sort=${sort}#popular" class="${catFilter === c.slug ? 'is-on' : ''}">${c.name}</a>`)}</div></details>
+      <details class="dd"><summary class="btn btn-pill btn-small">${sortNames[sort] || 'Сортировка'} ${icon.chevD}</summary>
+        <div class="dd-pop dd-right">${Object.entries(sortNames).map(([k, v]) => html`<a href="/?sort=${k}${catFilter ? `&cat=${catFilter}` : ''}#popular" class="${sort === k ? 'is-on' : ''}">${v}</a>`)}</div></details>
+    </div>
+  </div>
   ${demo ? html`<p class="muted small demo-note">Это демо-товары. После подключения Digiseller здесь будут ваши товары, отмеченные «На главной».</p>` : ''}
   ${grid(featured, 'Скоро здесь появятся товары.')}
-</section>
-
-<section class="wrap section">
-  <div class="section-head"><h2>Категории</h2></div>
-  <div class="cat-tiles">
-    ${categories.map((c) => html`<a class="cat-tile cat-tile-${c.theme} reveal" href="/c/${c.slug}">
-      <span class="cat-ico cat-ico-${c.theme} big">${c.name.slice(0, 1)}</span>
-      <b>${c.name}</b>
-      <span class="muted small">${counts[c.id] ? `${counts[c.id]} ${plural(counts[c.id], 'товар', 'товара', 'товаров')}` : 'Скоро'}</span>
-    </a>`)}
-  </div>
-</section>
-
-<section class="wrap section">
-  <div class="features">
-    <div class="feature reveal">${icon.shield}<b>Оплата через Digiseller</b><span>Платёж и выдача товара проходят на стороне Digiseller.</span></div>
-    <div class="feature reveal">${icon.tag}<b>Честная цена</b><span>Цена с учётом выбранных вариантов видна до оплаты.</span></div>
-    <div class="feature reveal">${icon.bolt}<b>Понятное получение</b><span>Способ получения указан на странице каждого товара.</span></div>
-    <div class="feature reveal">${icon.chat}<b>Помощь по покупке</b><span>Обращение по любой покупке — из аккаунта или формы поддержки.</span></div>
-  </div>
 </section>
 
 ${reviews.length ? html`<section class="wrap section">
@@ -278,6 +302,16 @@ export function categoryPage({ user, categories, cat, list, facets, filters, sor
   ${demo ? html`<p class="muted small demo-note">Демо-товары для примера. Ваши товары добавляются в админке.</p>` : ''}
   ${grid(list, Object.values(filters).some(Boolean) ? 'По этим фильтрам ничего не нашлось.' : 'В этом разделе скоро появятся товары.')}
 </div>`,
+  });
+}
+
+export function favoritesPage({ user, categories, list, loaded }) {
+  return layout({
+    user, categories, title: 'Избранное', noindex: true, scripts: ['/static/favorites.js'],
+    body: html`<div class="wrap cat-page" data-fav-page data-loaded="${loaded ? '1' : '0'}">
+      <h1 class="cat-h1">Избранное ${loaded ? html`<span class="count">${list.length}</span>` : ''}</h1>
+      ${loaded ? grid(list, 'Здесь появятся товары, которые вы отметите сердечком.') : html`<p class="muted">Загружаем…</p>`}
+    </div>`,
   });
 }
 
@@ -505,10 +539,8 @@ export function messagePage({ user, title, text, categories = [] }) {
 // Обложка демо-товара (квадрат, вырезка из сцены)
 export function demoCover(n) {
   const scene = scenes[(n - 1) % scenes.length].replace('<svg class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">', '<svg x="-350" y="0" width="1600" height="900" viewBox="0 0 1600 900">');
-  const labels = ['PS', 'PS5', 'XBOX', 'XBOX', 'PS5', 'PC', 'PSN', 'PC'];
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">${scene}
 <rect width="900" height="900" fill="url(#vg)"/><defs><linearGradient id="vg" x1="0" y1="0" x2="0" y2="1"><stop offset=".45" stop-color="#160c13" stop-opacity="0"/><stop offset="1" stop-color="#160c13" stop-opacity=".75"/></linearGradient></defs>
-<rect x="${860 - (labels[n - 1].length * 34 + 40)}" y="40" rx="14" width="${labels[n - 1].length * 34 + 40}" height="64" fill="#160c13" opacity=".85"/><text x="${880 - (labels[n - 1].length * 34 + 40)}" y="86" font-family="Impact, Arial Black, sans-serif" font-size="40" fill="#fff">${labels[n - 1] || 'PC'}</text>
 <text x="50" y="800" font-family="Impact, Arial Black, sans-serif" font-size="128" fill="#fff" letter-spacing="2">ДЕМО</text>
 <text x="56" y="852" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#ffd0e8">Товар-пример № ${n}</text></svg>`;
 }
