@@ -1,6 +1,46 @@
 [
-  { "scene": "sunset", "eyebrow": "Grand Theft Auto VI", "title": "Добро пожаловать в Вайс-Сити", "text": null, "cta": "Смотреть раздел", "href": "/c/gta", "image": null, "alt": "" },
-  { "scene": "night", "eyebrow": "PlayStation · Steam · Xbox", "title": "Больше игр. Меньше границ.", "text": "Пополнение и подписки для любимых платформ", "cta": "Выбрать платформу", "href": "/c/topup", "image": null, "alt": "" },
-  { "scene": "waves", "eyebrow": "ChatGPT · Claude · Gemini", "title": "Для идей без границ", "text": "Нейросети для работы, учёбы и творчества", "cta": "Выбрать нейросеть", "href": "/c/subscriptions", "image": null, "alt": "" },
-  { "scene": "pier", "eyebrow": "Roblox · Brawl Stars · Clash Royale", "title": "Больше игры. Больше возможностей.", "text": "Валюта и пополнение любимых игр", "cta": "Найти свою игру", "href": "/c/games", "image": null, "alt": "" }
+  {
+    "scene": "sunset",
+    "eyebrow": "Grand Theft Auto VI",
+    "title": "Добро пожаловать в Вайс-Сити",
+    "text": null,
+    "cta": "Смотреть раздел",
+    "href": "/c/gta",
+    "image": "/static/img/banners/gta.webp",
+    "alt": "",
+    "imageMobile": "/static/img/banners/gta-m.webp"
+  },
+  {
+    "scene": "night",
+    "eyebrow": "PlayStation · Steam · Xbox",
+    "title": "Больше игр. Меньше границ.",
+    "text": "Пополнение и подписки для любимых платформ",
+    "cta": "Выбрать платформу",
+    "href": "/c/topup",
+    "image": "/static/img/banners/platforms.webp",
+    "alt": "",
+    "imageMobile": "/static/img/banners/platforms-m.webp"
+  },
+  {
+    "scene": "waves",
+    "eyebrow": "ChatGPT · Claude · Gemini",
+    "title": "Для идей без границ",
+    "text": "Нейросети для работы, учёбы и творчества",
+    "cta": "Выбрать нейросеть",
+    "href": "/c/subscriptions",
+    "image": "/static/img/banners/ai.webp",
+    "alt": "",
+    "imageMobile": "/static/img/banners/ai-m.webp"
+  },
+  {
+    "scene": "pier",
+    "eyebrow": "Roblox · Brawl Stars · Clash Royale",
+    "title": "Больше игры. Больше возможностей.",
+    "text": "Валюта и пополнение любимых игр",
+    "cta": "Найти свою игру",
+    "href": "/c/games",
+    "image": "/static/img/banners/games.webp",
+    "alt": "",
+    "imageMobile": "/static/img/banners/games-m.webp"
+  }
 ]

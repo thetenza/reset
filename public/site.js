@@ -55,3 +55,11 @@ document.querySelectorAll('[data-confirm]').forEach((b) => b.addEventListener('c
   });
   sync();
 })();
+
+// Незаметный переключатель цвета: оранжевый ↔ зелёный (для сравнения)
+document.querySelectorAll('[data-accent-toggle]').forEach((b) => b.addEventListener('click', () => {
+  const root = document.documentElement;
+  const green = root.dataset.accent !== 'green';
+  if (green) root.dataset.accent = 'green'; else delete root.dataset.accent;
+  try { localStorage.setItem('reset:accent', green ? 'green' : 'orange'); } catch {}
+}));

@@ -8,9 +8,9 @@ import { SORTS } from './catalog.js';
 const S = config.support;
 
 // ---------- Иконки и знак ----------
-const mark = (cls = 'mark') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.markW} ${LOGO2.h}" aria-hidden="true"><path fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path fill="#ffa36b" d="${LOGO2.light}"/></svg>`);
+const mark = (cls = 'mark') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.markW} ${LOGO2.h}" aria-hidden="true"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></svg>`);
 // Полный логотип: знак — фирменный оранжевый, надпись — цвет текста (белая в тёмной теме)
-const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.w} ${LOGO2.h}" role="img" aria-label="${config.brand}"><path fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path fill="#ffa36b" d="${LOGO2.light}"/><path fill="currentColor" fill-rule="evenodd" d="${LOGO2.black}"/></svg>`);
+const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.w} ${LOGO2.h}" role="img" aria-label="${config.brand}"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/><path fill="currentColor" fill-rule="evenodd" d="${LOGO2.black}"/></svg>`);
 const svgIcon = (d, size = 20) => raw(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`);
 const icon = {
   arrow: svgIcon('<path d="M5 12h14M13 6l6 6-6 6"/>', 16),
@@ -104,7 +104,7 @@ ${config.demo ? raw('<div class="demo-banner" role="note">Демо-режим: D
   </div>
   <div class="wrap footer-bottom muted small">
     <span>© ${new Date().getFullYear()} ${config.brand}. Оплата и выдача товаров — через Digiseller.</span>
-    <span><a href="/docs/offer">Оферта</a> · <a href="/docs/privacy">Конфиденциальность</a>${S.email ? html` · <a href="mailto:${S.email}">${S.email}</a>` : ''}</span>
+    <span><button type="button" class="accent-dot" data-accent-toggle aria-label="Переключить цвет оформления (оранжевый / зелёный)" title="Оранжевый / зелёный стиль"></button> <a href="/docs/offer">Оферта</a> · <a href="/docs/privacy">Конфиденциальность</a>${S.email ? html` · <a href="mailto:${S.email}">${S.email}</a>` : ''}</span>
   </div>
 </footer>
 ${['/static/site.js', ...scripts].map((s) => html`<script src="${s}" defer></script>`)}
@@ -181,7 +181,7 @@ export function homePage({ user, categories, featured, reviews, faq, demo, banne
 ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescription="карусель" aria-label="Анонсы">
   <div class="hero-stage">
   ${banners.map((bn, i) => html`<a class="hslide ${i === 0 ? 'is-active' : ''} ${bn.image && !bn.title ? 'hslide-clean' : ''}" href="${bn.href}" ${i ? raw('aria-hidden="true" tabindex="-1"') : ''}>
-    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" alt="${bn.alt || ''}" ${i ? 'loading="lazy"' : ''}>` : raw(heroScene(bn.scene))}</span>
+    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" ${bn.imageMobile ? html`srcset="${bn.imageMobile} 1000w, ${bn.image} 2000w" sizes="(max-width: 700px) 100vw, 1240px"` : ''} alt="${bn.alt || ''}" draggable="false" ${i ? 'loading="lazy"' : ''}>` : raw(heroScene(bn.scene))}</span>
     ${bn.title ? html`<span class="hslide-text">
       ${bn.eyebrow ? html`<span class="hs-eyebrow">${bn.eyebrow}</span>` : ''}
       <span class="hs-title">${bn.title}</span>
@@ -192,7 +192,7 @@ ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescriptio
   ${banners.length > 1 ? html`
     <button type="button" class="hero-arrow hero-prev" data-prev aria-label="Предыдущий баннер">${icon.chevL}</button>
     <button type="button" class="hero-arrow hero-next" data-next aria-label="Следующий баннер">${icon.chevR}</button>
-    <div class="hero-dots" role="tablist">${banners.map((bn, i) => html`<button type="button" role="tab" class="hdot ${i === 0 ? 'is-active' : ''}" data-go="${i}" aria-label="Баннер ${i + 1}" aria-selected="${i === 0}"><span></span></button>`)}</div>` : ''}
+    <div class="hero-dots" role="tablist">${banners.map((bn, i) => html`<button type="button" role="tab" class="hdot ${i === 0 ? 'is-active' : ''}" data-go="${i}" aria-label="Баннер ${i + 1}" aria-selected="${i === 0}"></button>`)}</div>` : ''}
   </div>
 </section>` : ''}
 
