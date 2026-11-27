@@ -7,8 +7,7 @@
     "cta": "Смотреть раздел",
     "href": "/c/gta",
     "image": "/static/img/banners/gta.webp",
-    "alt": "",
-    "imageMobile": "/static/img/banners/gta-m.webp"
+    "alt": ""
   },
   {
     "scene": "night",
@@ -18,8 +17,7 @@
     "cta": "Выбрать платформу",
     "href": "/c/topup",
     "image": "/static/img/banners/platforms.webp",
-    "alt": "",
-    "imageMobile": "/static/img/banners/platforms-m.webp"
+    "alt": ""
   },
   {
     "scene": "waves",
@@ -29,8 +27,7 @@
     "cta": "Выбрать нейросеть",
     "href": "/c/subscriptions",
     "image": "/static/img/banners/ai.webp",
-    "alt": "",
-    "imageMobile": "/static/img/banners/ai-m.webp"
+    "alt": ""
   },
   {
     "scene": "pier",
@@ -40,7 +37,6 @@
     "cta": "Найти свою игру",
     "href": "/c/games",
     "image": "/static/img/banners/games.webp",
-    "alt": "",
-    "imageMobile": "/static/img/banners/games-m.webp"
+    "alt": ""
   }
 ]

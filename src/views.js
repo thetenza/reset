@@ -181,7 +181,7 @@ export function homePage({ user, categories, featured, reviews, faq, demo, banne
 ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescription="карусель" aria-label="Анонсы">
   <div class="hero-stage">
   ${banners.map((bn, i) => html`<a class="hslide ${i === 0 ? 'is-active' : ''} ${bn.image && !bn.title ? 'hslide-clean' : ''}" href="${bn.href}" ${i ? raw('aria-hidden="true" tabindex="-1"') : ''}>
-    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" ${bn.imageMobile ? html`srcset="${bn.imageMobile} 1000w, ${bn.image} 2000w" sizes="(max-width: 700px) 100vw, 1240px"` : ''} alt="${bn.alt || ''}" draggable="false" ${i ? 'loading="lazy"' : ''}>` : raw(heroScene(bn.scene))}</span>
+    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" ${bn.imageMobile ? html`srcset="${bn.imageMobile} 780w, ${bn.image} 1710w" sizes="(max-width: 640px) 780px, 1240px"` : ''} alt="${bn.alt || ''}" draggable="false" ${i ? 'loading="lazy"' : ''}>` : raw(heroScene(bn.scene))}</span>
     ${bn.title ? html`<span class="hslide-text">
       ${bn.eyebrow ? html`<span class="hs-eyebrow">${bn.eyebrow}</span>` : ''}
       <span class="hs-title">${bn.title}</span>
