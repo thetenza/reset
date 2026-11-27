@@ -409,3 +409,8 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 :root[data-accent="green"] .pcard .btn-buy:hover, :root[data-accent="green"] .btn-buy-main:hover { color: #121212 !important; }
 :root[data-accent="green"] .hslide .btn-pill { background: #a6e000; color: #121212 !important; }
 :root[data-accent="green"] .fav.is-on { color: #6f9e00; }
+
+/* Плитки с готовыми картинками: название уже на изображении — подпись сайта только для скринридеров */
+.tile-img::after { display: none; }
+.tile-img .tile-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tile-img img { z-index: 0; }

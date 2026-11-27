@@ -1,10 +1,10 @@
 [
-  { "name": "GTA VI", "href": "/c/gta", "style": "vice", "glyph": "VI", "image": null },
-  { "name": "PlayStation", "href": "/search?q=PlayStation", "style": "ps", "glyph": "PS", "image": null },
-  { "name": "Steam", "href": "/search?q=Steam", "style": "steam", "glyph": "ST", "image": null },
-  { "name": "Spotify", "href": "/search?q=Spotify", "style": "spotify", "glyph": "SP", "image": null },
-  { "name": "Xbox", "href": "/search?q=Xbox", "style": "xbox", "glyph": "XB", "image": null },
-  { "name": "ChatGPT", "href": "/search?q=ChatGPT", "style": "gpt", "glyph": "AI", "image": null },
-  { "name": "Claude", "href": "/search?q=Claude", "style": "claude", "glyph": "C", "image": null },
-  { "name": "Roblox", "href": "/search?q=Roblox", "style": "roblox", "glyph": "RB", "image": null }
+  { "name": "PlayStation", "href": "/search?q=PlayStation", "style": "ps", "glyph": "PS", "image": "/static/img/tiles/ps.webp" },
+  { "name": "GTA VI", "href": "/c/gta", "style": "vice", "glyph": "VI", "image": "/static/img/tiles/gta.webp" },
+  { "name": "Steam", "href": "/search?q=Steam", "style": "steam", "glyph": "ST", "image": "/static/img/tiles/steam.webp" },
+  { "name": "Spotify", "href": "/search?q=Spotify", "style": "spotify", "glyph": "SP", "image": "/static/img/tiles/spotify.webp" },
+  { "name": "ChatGPT", "href": "/search?q=ChatGPT", "style": "gpt", "glyph": "AI", "image": "/static/img/tiles/gpt.webp" },
+  { "name": "Xbox", "href": "/search?q=Xbox", "style": "xbox", "glyph": "XB", "image": "/static/img/tiles/xbox.webp" },
+  { "name": "Roblox", "href": "/search?q=Roblox", "style": "roblox", "glyph": "RB", "image": "/static/img/tiles/roblox.webp" },
+  { "name": "Claude", "href": "/search?q=Claude", "style": "claude", "glyph": "C", "image": "/static/img/tiles/claude.webp" }
 ]
