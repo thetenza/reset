@@ -47,6 +47,7 @@ const glyphs = {
 const glyph = (name, size = 22) => svgIcon(glyphs[name] || glyphs.bolt, size);
 
 const salesLabel = (n) => (n == null ? null : n < 100 ? 'Меньше 100 продаж' : `${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'продажа', 'продажи', 'продаж')}`);
+const salesShort = (n) => (n == null ? null : n < 100 ? '<100' : new Intl.NumberFormat('ru-RU').format(n));
 const plural = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
 
 // ---------- Каркас ----------
@@ -78,13 +79,17 @@ ${config.demo ? raw('<div class="demo-banner" role="note">Демо-режим: D
     <form class="search" action="/search" method="get" role="search">
       ${icon.search}<input type="search" name="q" value="${q}" placeholder="Найти игру, подписку или сервис" aria-label="Поиск товаров" minlength="2" maxlength="80">
     </form>
-    <nav class="head-actions" aria-label="Аккаунт">
-      <a href="/support" class="ha">${icon.help}<span>Помощь</span></a>
-      <a href="${user ? '/account' : '/login?next=/account'}" class="ha">${icon.box}<span>Заказы</span></a>
-      <a href="/favorites" class="ha ha-fav" aria-label="Избранное">${icon.heart}<span>Избранное</span></a>
-      <a href="${user ? '/account' : '/login'}" class="ha">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
-      <button type="button" class="ha theme-toggle" data-theme-toggle aria-label="Переключить тему" title="Светлая / тёмная тема"><span class="ico-sun">${icon.sun}</span><span class="ico-moon">${icon.moon}</span></button>
-    </nav>
+    <details class="region">
+      <summary class="region-btn" aria-label="Регион и валюта"><span class="flag-ru" aria-hidden="true"></span>RU · RUB ₽ ${icon.chevD}</summary>
+      <div class="dd-pop dd-right region-pop">
+        <span class="is-on"><span class="flag-ru" aria-hidden="true"></span>Россия · RUB ₽</span>
+        <span class="muted small">Другие валюты появятся позже — цены и оплата через Digiseller.</span>
+      </div>
+    </details>
+    <button type="button" class="theme-switch" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема">
+      <span class="ts-ico ts-sun">${icon.sun}</span><span class="ts-ico ts-moon">${icon.moon}</span><span class="ts-knob"></span>
+    </button>
+    <a href="${user ? '/account' : '/login'}" class="ha ha-profile">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
   </div>
   ${!home && categories.length ? html`<nav class="wrap quicknav" aria-label="Категории">
     ${categories.map((c) => html`<a href="/c/${c.slug}" class="qn qn-${c.theme}"><span class="cat-ico cat-ico-${c.theme}">${c.name.slice(0, 1)}</span>${c.name}</a>`)}
@@ -128,7 +133,7 @@ export function productCard(p) {
       ${p.state === 'error' ? html`<div class="pcard-price pcard-price-err">Цена уточняется</div>`
         : p.live ? html`<div class="pcard-price">${formatPrice(p.live.price, p.live.currency).replace(',00', '')}</div>` : ''}
       <a class="pcard-title" href="${href}">${p.title}</a>
-      <div class="pcard-sales" ${sold ? raw('title="По данным Digiseller"') : ''}>${sold || p.row.kind || ''}</div>
+      <div class="pcard-sales" ${sold ? raw(`title="${sold} — по данным Digiseller"`) : ''}>${sold ? html`${svgIcon('<path d="M7 17L17 7M9 7h8v8"/>', 14)} ${salesShort(p.sales)}` : p.row.kind || ''}</div>
       <a class="btn btn-buy" href="${href}">${p.state === 'available' ? 'Купить' : 'Подробнее'}</a>
     </div>
   </article>`;
@@ -166,27 +171,36 @@ const heroScene = (name) => name === 'waves'
   ? wavesSvg({ w: 1600, h: 600, lines: 70, colors: ['#ff8a2a', '#ffb36b', '#ffffff', '#ff6a13'], opacity: 0.55, bg: '#141312', seed: 9, cls: 'scene' })
   : scenes[name === 'night' ? 0 : name === 'pier' ? 2 : 1];
 
-// ---------- Главная ----------
-export function homePage({ user, categories, featured, reviews, faq, demo, banners = [], tiles = [], quicklinks = [], topup = [], sort = 'popular', catFilter = '' }) {
-  const sortNames = { popular: 'Популярные', price_asc: 'Сначала дешевле', price_desc: 'Сначала дороже' };
+// ---------- Главная (вариант 2) ----------
+function spotCard(p, big = false) {
+  const href = `/p/${p.row.slug}`;
+  const img = p.images[0];
+  const price = p.live ? formatPrice(p.live.price, p.live.currency).replace(',00', '') : null;
+  return html`<article class="spot ${big ? 'spot-big' : ''}">
+    <a class="spot-media" href="${href}" tabindex="-1" aria-hidden="true">${img ? html`<img src="${img}" alt="" loading="lazy">` : html`<span class="media-placeholder">${mark()}</span>`}</a>
+    <div class="spot-body">
+      ${price ? html`<div class="spot-price">${price}</div>` : html`<div class="spot-price pcard-price-err">Цена уточняется</div>`}
+      <a class="spot-title" href="${href}">${p.title.replace(/^Демо · /, '')}</a>
+      <a class="btn-glass btn-glass-dark" href="${href}">Купить</a>
+    </div>
+  </article>`;
+}
+
+export function homePage({ user, categories, featured, reviews, faq, demo, banners = [], tiles = [], topup = [], spot = [], catFilter = '' }) {
   return layout({
     user, categories, home: true,
     description: `${config.brand} — игры, подписки и пополнение сервисов. Оплата и получение через Digiseller.`,
     scripts: ['/static/hero.js', '/static/topup.js'],
     body: html`
-<nav class="wrap plaques" aria-label="Быстрые разделы">
-  ${quicklinks.map((q) => html`<a class="plaque" href="${q.href}"><span class="plaque-title">${q.title}</span><span class="plaque-ico">${glyph(q.icon, 24)}</span></a>`)}
-</nav>
-
 ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescription="карусель" aria-label="Анонсы">
   <div class="hero-stage">
-  ${banners.map((bn, i) => html`<a class="hslide ${i === 0 ? 'is-active' : ''} ${bn.image && !bn.title ? 'hslide-clean' : ''}" href="${bn.href}" ${i ? raw('aria-hidden="true" tabindex="-1"') : ''}>
-    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" ${bn.imageMobile ? html`srcset="${bn.imageMobile} 780w, ${bn.image} 1710w" sizes="(max-width: 640px) 780px, 1240px"` : ''} alt="${bn.alt || ''}" draggable="false" ${i ? 'loading="lazy"' : ''}>` : raw(heroScene(bn.scene))}</span>
+  ${banners.map((bn, i) => html`<a class="hslide ${i === 0 ? 'is-active' : ''}" href="${bn.href}" ${i ? raw('aria-hidden="true" tabindex="-1"') : ''}>
+    <span class="hslide-bg">${bn.image ? html`<img src="${bn.image}" alt="${bn.alt || ''}" draggable="false" ${i ? 'loading="lazy"' : ''}>` : raw(heroScene(bn.scene))}</span>
     ${bn.title ? html`<span class="hslide-text">
       ${bn.eyebrow ? html`<span class="hs-eyebrow">${bn.eyebrow}</span>` : ''}
       <span class="hs-title">${bn.title}</span>
       ${bn.text ? html`<span class="hs-sub">${bn.text}</span>` : ''}
-      ${bn.cta ? html`<span class="btn btn-pill">${bn.cta} ${icon.arrow}</span>` : ''}
+      ${bn.cta ? html`<span class="btn-glass">${bn.cta}</span>` : ''}
     </span>` : ''}
   </a>`)}
   ${banners.length > 1 ? html`
@@ -197,45 +211,41 @@ ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescriptio
 </section>` : ''}
 
 <section class="wrap tiles" aria-label="Популярные игры и сервисы">
-  ${tiles.slice(0, 8).map((t) => html`<a class="tile tile-${t.style} ${t.image ? 'tile-img' : ''}" href="${t.href}">
+  ${tiles.slice(0, 8).map((t) => html`<a class="tile tile-${t.style}" href="${t.href}">
     ${t.image ? html`<img src="${t.image}" alt="" loading="lazy">` : html`<span class="tile-glyph" aria-hidden="true">${t.glyph}</span>`}
     <span class="tile-name">${t.name}</span></a>`)}
 </section>
 
-${topup.length ? html`<section class="wrap" aria-label="Пополнение сервисов">
-  <div class="topup" data-topup>
-    <div class="topup-head">Пополнение сервисов</div>
-    <div class="topup-tabs" role="tablist">
-      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${glyph(t.icon, 16)}</span>${t.name}</button>`)}
+<section class="wrap showcase">
+  <div class="glow glow-a" aria-hidden="true"></div><div class="glow glow-b" aria-hidden="true"></div>
+  ${spot.length ? html`<div class="glass glass-orange spot-box" aria-label="Главные товары">
+    ${spotCard(spot[0], true)}
+    <div class="spot-col">${spot.slice(1, 3).map((p) => spotCard(p))}</div>
+  </div>` : ''}
+
+  ${topup.length ? html`<div class="glass glass-blue topup2" data-topup aria-label="Пополнение сервисов">
+    <div class="tp2-head">${glyph('wallet', 20)}<b>Пополнение сервисов</b></div>
+    <div class="tp2-tabs" role="tablist">
+      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${glyph(t.icon, 20)}</span><span class="ttab-name">${t.name}</span></button>`)}
     </div>
-    <form class="topup-body" data-topup-form novalidate>
-      <div class="tp-amount">
-        <label class="tp-field"><span>Сумма пополнения</span><input type="text" inputmode="numeric" name="amount" value="${topup[0].chips?.[1] ?? 1000}" autocomplete="off"></label>
-        <div class="tp-chips" data-chips></div>
-      </div>
-      <label class="tp-field tp-cur"><span>Валюта</span><select name="currency" data-currency></select></label>
-      <div class="tp-login">
-        <label class="tp-field"><span data-login-label>Логин</span><input type="text" name="login" autocomplete="off" data-login></label>
-        <a href="/support" class="tp-help small" data-login-help>Как узнать логин?</a>
-      </div>
-      <div class="tp-buy">
-        <button type="submit" class="btn btn-big tp-btn" data-buy>Купить</button>
-        <span class="tp-note small muted" data-note>Итоговая цена — перед оплатой</span>
-      </div>
+    <form class="tp2-body" data-topup-form novalidate>
+      <label class="tp2-row"><span class="tp2-label">Баланс <span data-tab-name>${topup[0].name}</span></span>
+        <span class="tp2-input"><input type="text" inputmode="numeric" name="amount" value="${topup[0].chips?.[1] ?? 1000}" autocomplete="off"><select name="currency" data-currency aria-label="Валюта"></select></span></label>
+      <div class="tp-chips" data-chips></div>
+      <label class="tp2-row"><span class="tp2-label" data-login-label>Логин</span>
+        <span class="tp2-input"><input type="text" name="login" autocomplete="off" data-login><a href="/support" class="tp2-info" data-login-help aria-label="Как узнать логин?">i</a></span></label>
+      <button type="submit" class="btn-glass btn-glass-accent tp2-btn" data-buy>Купить</button>
+      <span class="tp-note small muted" data-note></span>
     </form>
     <script type="application/json" id="topup-data">${raw(JSON.stringify(topup).replace(/</g, '\\u003c'))}</script>
-  </div>
-</section>` : ''}
+  </div>` : ''}
+</section>
 
 <section class="wrap section" id="popular">
   <div class="section-head">
     <h2>Чаще покупают</h2>
-    <div class="section-tools">
-      <details class="dd"><summary class="btn btn-pill btn-small">${catFilter ? (categories.find((c) => c.slug === catFilter)?.name || 'Категория') : 'Категория'} ${icon.chevD}</summary>
-        <div class="dd-pop"><a href="/?sort=${sort}#popular" class="${!catFilter ? 'is-on' : ''}">Все</a>${categories.map((c) => html`<a href="/?cat=${c.slug}&sort=${sort}#popular" class="${catFilter === c.slug ? 'is-on' : ''}">${c.name}</a>`)}</div></details>
-      <details class="dd"><summary class="btn btn-pill btn-small">${sortNames[sort] || 'Сортировка'} ${icon.chevD}</summary>
-        <div class="dd-pop dd-right">${Object.entries(sortNames).map(([k, v]) => html`<a href="/?sort=${k}${catFilter ? `&cat=${catFilter}` : ''}#popular" class="${sort === k ? 'is-on' : ''}">${v}</a>`)}</div></details>
-    </div>
+    <details class="dd"><summary class="dd-btn">${catFilter ? (categories.find((c) => c.slug === catFilter)?.name || 'Все категории') : 'Все категории'} ${icon.chevD}</summary>
+      <div class="dd-pop dd-right"><a href="/#popular" class="${!catFilter ? 'is-on' : ''}">Все категории</a>${categories.map((c) => html`<a href="/?cat=${c.slug}#popular" class="${catFilter === c.slug ? 'is-on' : ''}">${c.name}</a>`)}</div></details>
   </div>
   ${demo ? html`<p class="muted small demo-note">Это демо-товары. После подключения Digiseller здесь будут ваши товары, отмеченные «На главной».</p>` : ''}
   ${grid(featured, 'Скоро здесь появятся товары.')}
@@ -252,6 +262,16 @@ ${faq.length ? html`<section class="wrap section narrow-block">
 </section>` : ''}
 `,
   });
+}
+
+// Нейтральная обложка демо-товара без картинки
+export function demoTile(key) {
+  const t = { apple: ['Apple Gift Card', '#cfd8ff', '#8a7dff'], telegram: ['Telegram Stars', '#7fd3ff', '#2b8fe0'], minecraft: ['Minecraft', '#8bd36a', '#5a3a22'],
+    brawl: ['Brawl Stars', '#ffcf3d', '#7a2ad9'], clash: ['Clash Royale', '#5aa9ff', '#2c3f8f'] }[key];
+  if (!t) return null;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><radialGradient id="g" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="${t[1]}"/><stop offset="1" stop-color="${t[2]}"/></radialGradient></defs>
+<rect width="600" height="600" fill="url(#g)"/><text x="300" y="320" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="58" fill="#fff">${t[0]}</text>
+<text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="26" fill="#ffffffcc">ДЕМО</text></svg>`;
 }
 
 // ---------- Категория (раздел в стиле маркетплейса) ----------

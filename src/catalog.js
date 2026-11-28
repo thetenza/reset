@@ -31,11 +31,11 @@ export function getRowBySlug(slug) {
 
 // ---------- Демо-витрина ----------
 // Показывается ТОЛЬКО пока Digiseller не подключён и нет ни одного опубликованного товара. Всё помечено «Демо».
-const demoItem = (n, title, price, available, attrs, kind, badge, sales, options = []) => ({
+const demoItem = (n, title, price, available, attrs, kind, badge, sales, options = [], extra = {}) => ({
   row: {
     id: `demo_${n}`, slug: `demo-${n}`, title, short: null, description: 'Демонстрационный товар. Реальные товары добавляются в админке и привязываются к Digiseller.',
     limitations: null, delivery: null, instruction: null, images: [`/demo/cover/${n}.svg`], attrs, kind, badge,
-    category_id: 'cat_gta', featured: n <= 6, visibility: 'visible', digiseller_id: null,
+    category_id: 'cat_gta', featured: n >= 9, visibility: 'visible', digiseller_id: null, ...extra,
   },
   live: available === 'error' ? null : { externalId: `demo-${n}`, name: title, price, currency: 'RUB', available, info: '', addInfo: '', images: [], options, stats: { sales } },
   error: available === 'error' ? 'Демо: ошибка получения цены' : null,
@@ -44,7 +44,7 @@ const ED = [{ id: '1', label: 'Издание', type: 'radio', required: true, c
   { id: '11', text: 'Standard', modify: 0, modifyType: null, isDefault: true },
   { id: '12', text: 'Deluxe', modify: 1500, modifyType: null, isDefault: false }] }];
 const DEMO = [
-  demoItem(1, 'Демо · GTA VI · ключ PlayStation, регион Турция', 7945, true, { Платформа: 'PlayStation', Регион: 'Турция', Издание: 'Standard' }, 'Ключ', 'Хит', 1240, ED),
+  demoItem(1, 'Демо · Grand Theft Auto VI', 7990, true, { Платформа: 'PlayStation', Регион: 'Турция', Издание: 'Standard' }, 'Ключ', 'Хит', 1240, ED, { images: ['/static/img/tiles/gta.webp'] }),
   demoItem(2, 'Демо · GTA VI · активация на ваш аккаунт PS5', 7925, true, { Платформа: 'PlayStation', Регион: 'Индия', Издание: 'Standard' }, 'Активация', null, 860),
   demoItem(3, 'Демо · GTA VI · Xbox Series X|S, выбор издания', 7299, true, { Платформа: 'Xbox', Регион: 'Глобальный', Издание: 'Standard' }, 'Активация', 'Новинка', 3175, ED),
   demoItem(4, 'Демо · GTA VI · Xbox, быстрая доставка', 7290, true, { Платформа: 'Xbox', Регион: 'Турция', Издание: 'Standard' }, 'Активация', null, 1215),
@@ -52,7 +52,22 @@ const DEMO = [
   demoItem(6, 'Демо · GTA VI · предзаказ PC', 6990, false, { Платформа: 'PC', Регион: 'Глобальный', Издание: 'Standard' }, 'Ключ', 'Предзаказ', null),
   demoItem(7, 'Демо · пополнение PSN для GTA', 1990, true, { Платформа: 'PlayStation', Регион: 'Турция' }, 'Пополнение', null, 2210),
   demoItem(8, 'Демо · GTA Online · Shark Card', 990, 'error', { Платформа: 'PC' }, 'Код', null, null),
+  // Витрина главной: разные разделы (картинки — ваши мини-баннеры или нейтральные заглушки)
+  demoItem(9, 'Демо · ChatGPT Plus', 2390, true, { Срок: '1 месяц' }, 'Подписка', null, 64, [], { category_id: 'cat_subs', images: ['/static/img/tiles/gpt.webp'], featured: true }),
+  demoItem(10, 'Демо · Spotify Premium', 490, true, { Срок: '1 месяц' }, 'Подписка', null, 380, [], { category_id: 'cat_subs', images: ['/static/img/tiles/spotify.webp'], featured: true }),
+  demoItem(11, 'Демо · Пополнение Steam', 100, true, { Платформа: 'Steam' }, 'Пополнение', null, 1240, [], { category_id: 'cat_topup', images: ['/static/img/tiles/steam.webp'], featured: true }),
+  demoItem(12, 'Демо · Robux для Roblox', 390, true, {}, 'Валюта', null, 2100, [], { category_id: 'cat_games', images: ['/static/img/tiles/roblox.webp'], featured: true }),
+  demoItem(13, 'Демо · Apple Gift Card', 990, true, {}, 'Карта', null, 40, [], { category_id: 'cat_topup', images: ['/demo/tile/apple.svg'], featured: true }),
+  demoItem(14, 'Демо · Xbox Game Pass', 890, true, { Срок: '1 месяц' }, 'Подписка', null, 240, [], { category_id: 'cat_subs', images: ['/static/img/tiles/xbox.webp'], featured: true }),
+  demoItem(15, 'Демо · Claude Pro', 2490, true, { Срок: '1 месяц' }, 'Подписка', null, 55, [], { category_id: 'cat_subs', images: ['/static/img/tiles/claude.webp'], featured: true }),
+  demoItem(16, 'Демо · Telegram Stars', 190, true, {}, 'Пополнение', null, 860, [], { category_id: 'cat_topup', images: ['/demo/tile/telegram.svg'], featured: true }),
+  demoItem(17, 'Демо · Minecraft Java & Bedrock', 1590, true, { Платформа: 'PC' }, 'Ключ', null, 680, [], { category_id: 'cat_games', images: ['/demo/tile/minecraft.svg'], featured: true }),
+  demoItem(18, 'Демо · Алмазы Brawl Stars', 290, true, {}, 'Валюта', null, 420, [], { category_id: 'cat_games', images: ['/demo/tile/brawl.svg'], featured: true }),
+  demoItem(19, 'Демо · Пополнение Clash Royale', 390, true, {}, 'Валюта', null, 310, [], { category_id: 'cat_games', images: ['/demo/tile/clash.svg'], featured: true }),
+  demoItem(20, 'Демо · Пополнение PlayStation Network', 990, true, { Платформа: 'PlayStation' }, 'Пополнение', null, 90, [], { category_id: 'cat_topup', images: ['/static/img/tiles/ps.webp'], featured: true }),
 ];
+// Три главных товара для блока на главной (в демо). Реальные задаются в config/spotlight.json по адресам товаров.
+export const DEMO_SPOTLIGHT = ['demo-1', 'demo-9', 'demo-10'];
 const demoActive = () => config.demo && !db.prepare("SELECT 1 FROM products WHERE visibility = 'visible' LIMIT 1").get();
 
 // ---------- Живые данные с кешем ----------
@@ -169,4 +184,11 @@ export function allReviews(limit = 6) {
 export function latestStat(productId, metric) {
   return db.prepare(`SELECT * FROM stats_snapshots WHERE product_id = ? AND metric = ?
     ORDER BY cutoff_at DESC LIMIT 1`).get(productId, metric);
+}
+
+// Блок «главные товары» на главной: config/spotlight.json — массив адресов товаров (slug)
+export async function spotlight(slugs = []) {
+  const all = await visibleResolved();
+  const want = demoActive() ? DEMO_SPOTLIGHT : slugs;
+  return want.map((sl) => all.find((p) => p.row.slug === sl)).filter(Boolean).slice(0, 3);
 }

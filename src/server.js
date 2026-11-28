@@ -60,17 +60,18 @@ const readJson = (file, fallback) => { try { return JSON.parse(fs.readFileSync(p
 
 // ---------- Витрина ----------
 app.get('/', async (req, res) => {
-  const sort = ['popular', 'price_asc', 'price_desc'].includes(req.query.sort) ? req.query.sort : 'popular';
   const cat = typeof req.query.cat === 'string' ? catalog.getCategoryBySlug(req.query.cat) : null;
-  let featured;
-  if (cat) featured = (await catalog.categoryProducts(cat, { sort })).list.slice(0, 18);
-  else {
-    featured = await catalog.featured(18);
-    if (sort !== 'popular') featured = (await catalog.categoryProducts(null, { sort })).list.filter((p) => featured.includes(p) || p.row.featured).slice(0, 18);
-  }
-  res.send(String(views.homePage({ user: req.user, categories: req.cats, featured, demo: catalog.isDemoStorefront(), sort, catFilter: cat?.slug || '',
+  const featured = cat ? (await catalog.categoryProducts(cat)).list.slice(0, 18) : await catalog.featured(18);
+  const spot = await catalog.spotlight(readJson('spotlight.json', []));
+  res.send(String(views.homePage({ user: req.user, categories: req.cats, featured, spot, demo: catalog.isDemoStorefront(), catFilter: cat?.slug || '',
     reviews: catalog.allReviews(6), faq: readJson('faq.json', []), banners: readJson('banners.json', []).slice(0, 6),
-    tiles: readJson('tiles.json', []), quicklinks: readJson('quicklinks.json', []), topup: readJson('topup.json', []) })));
+    tiles: readJson('tiles.json', []), topup: readJson('topup.json', []) })));
+});
+
+app.get('/demo/tile/:key.svg', (req, res) => {
+  const svg = config.demo ? views.demoTile(req.params.key) : null;
+  if (!svg) return res.status(404).end();
+  res.type('image/svg+xml').set('Cache-Control', 'public, max-age=3600').send(svg);
 });
 
 app.get('/favorites', async (req, res) => {
