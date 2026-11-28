@@ -66,7 +66,6 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 </head>
 <body>
-${config.demo ? raw('<div class="demo-banner" role="note">Демо-режим: Digiseller не подключён. Товары с пометкой «Демо» — примеры, покупка недоступна.</div>') : ''}
 <header class="site-header">
   <div class="wrap header-row">
     <a class="logo" href="/" aria-label="${config.brand} — на главную">${logo()}</a>
@@ -79,17 +78,18 @@ ${config.demo ? raw('<div class="demo-banner" role="note">Демо-режим: D
     <form class="search" action="/search" method="get" role="search">
       ${icon.search}<input type="search" name="q" value="${q}" placeholder="Найти игру, подписку или сервис" aria-label="Поиск товаров" minlength="2" maxlength="80">
     </form>
-    <details class="region">
-      <summary class="region-btn" aria-label="Регион и валюта"><span class="flag-ru" aria-hidden="true"></span>RU · RUB ₽ ${icon.chevD}</summary>
-      <div class="dd-pop dd-right region-pop">
-        <span class="is-on"><span class="flag-ru" aria-hidden="true"></span>Россия · RUB ₽</span>
-        <span class="muted small">Другие валюты появятся позже — цены и оплата через Digiseller.</span>
+    <div class="head-right">
+      <div class="head-top">
+        <span class="mini-pill"><span class="flag-ru" aria-hidden="true"></span>Русский</span>
+        <span class="mini-pill">RUB ₽</span>
+        <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
       </div>
-    </details>
-    <button type="button" class="theme-switch" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема">
-      <span class="ts-ico ts-sun">${icon.sun}</span><span class="ts-ico ts-moon">${icon.moon}</span><span class="ts-knob"></span>
-    </button>
-    <a href="${user ? '/account' : '/login'}" class="ha ha-profile">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
+      <nav class="head-bottom" aria-label="Аккаунт">
+        <a href="/support" class="hb">${icon.help}<span>Помощь</span></a>
+        <a href="${user ? '/account' : '/login?next=/account'}" class="hb">${icon.box}<span>Заказы</span></a>
+        <a href="${user ? '/account' : '/login'}" class="hb">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
+      </nav>
+    </div>
   </div>
   ${!home && categories.length ? html`<nav class="wrap quicknav" aria-label="Категории">
     ${categories.map((c) => html`<a href="/c/${c.slug}" class="qn qn-${c.theme}"><span class="cat-ico cat-ico-${c.theme}">${c.name.slice(0, 1)}</span>${c.name}</a>`)}
@@ -133,6 +133,7 @@ export function productCard(p) {
       ${p.state === 'error' ? html`<div class="pcard-price pcard-price-err">Цена уточняется</div>`
         : p.live ? html`<div class="pcard-price">${formatPrice(p.live.price, p.live.currency).replace(',00', '')}</div>` : ''}
       <a class="pcard-title" href="${href}">${p.title}</a>
+      ${p.row.short ? html`<div class="pcard-sub">${p.row.short}</div>` : ''}
       <div class="pcard-sales" ${sold ? raw(`title="${sold} — по данным Digiseller"`) : ''}>${sold ? html`${svgIcon('<path d="M7 17L17 7M9 7h8v8"/>', 14)} ${salesShort(p.sales)}` : p.row.kind || ''}</div>
       <a class="btn btn-buy" href="${href}">${p.state === 'available' ? 'Купить' : 'Подробнее'}</a>
     </div>
@@ -176,17 +177,22 @@ function spotCard(p, big = false) {
   const href = `/p/${p.row.slug}`;
   const img = p.images[0];
   const price = p.live ? formatPrice(p.live.price, p.live.currency).replace(',00', '') : null;
+  const sold = salesLabel(p.sales);
   return html`<article class="spot ${big ? 'spot-big' : ''}">
     <a class="spot-media" href="${href}" tabindex="-1" aria-hidden="true">${img ? html`<img src="${img}" alt="" loading="lazy">` : html`<span class="media-placeholder">${mark()}</span>`}</a>
     <div class="spot-body">
-      ${price ? html`<div class="spot-price">${price}</div>` : html`<div class="spot-price pcard-price-err">Цена уточняется</div>`}
-      <a class="spot-title" href="${href}">${p.title.replace(/^Демо · /, '')}</a>
-      <a class="btn-glass btn-glass-dark" href="${href}">Купить</a>
+      <div class="spot-info">
+        ${price ? html`<div class="spot-price">${price}</div>` : html`<div class="spot-price pcard-price-err">Цена уточняется</div>`}
+        <a class="spot-title" href="${href}">${p.title}</a>
+        ${p.row.short && !big ? html`<div class="spot-sub">${p.row.short}</div>` : ''}
+        ${sold ? html`<div class="spot-sub">${sold}</div>` : ''}
+      </div>
+      <a class="btn-glass btn-glass-dark spot-buy" href="${href}">Купить</a>
     </div>
   </article>`;
 }
 
-export function homePage({ user, categories, featured, reviews, faq, demo, banners = [], tiles = [], topup = [], spot = [], catFilter = '' }) {
+export function homePage({ user, categories, featured, reviews, faq, demo, banners = [], tiles = [], topup = [], spot = [], catFilter = '', sort = 'popular' }) {
   return layout({
     user, categories, home: true,
     description: `${config.brand} — игры, подписки и пополнение сервисов. Оплата и получение через Digiseller.`,
@@ -223,18 +229,21 @@ ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescriptio
     <div class="spot-col">${spot.slice(1, 3).map((p) => spotCard(p))}</div>
   </div>` : ''}
 
-  ${topup.length ? html`<div class="glass glass-blue topup2" data-topup aria-label="Пополнение сервисов">
+  ${topup.length ? html`<div class="glass topup2" data-topup data-brand="${topup[0].brand}" aria-label="Пополнение сервисов">
     <div class="tp2-head">${glyph('wallet', 20)}<b>Пополнение сервисов</b></div>
     <div class="tp2-tabs" role="tablist">
-      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${glyph(t.icon, 20)}</span><span class="ttab-name">${t.name}</span></button>`)}
+      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ttab-${t.brand} ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${glyph(t.icon, 18)}</span><span class="ttab-txt"><b>${t.name}</b><small>${t.sub || ''}</small></span></button>`)}
     </div>
     <form class="tp2-body" data-topup-form novalidate>
-      <label class="tp2-row"><span class="tp2-label">Баланс <span data-tab-name>${topup[0].name}</span></span>
-        <span class="tp2-input"><input type="text" inputmode="numeric" name="amount" value="${topup[0].chips?.[1] ?? 1000}" autocomplete="off"><select name="currency" data-currency aria-label="Валюта"></select></span></label>
+      <div class="tp2-cap">Баланс <span data-tab-name>${topup[0].name}</span></div>
+      <div class="tp2-line">
+        <label class="tp2-input tp2-grow"><span class="tp2-in-label">Сумма</span><input type="text" inputmode="numeric" name="amount" value="${topup[0].chips?.[1] ?? 1000}" autocomplete="off"></label>
+        <label class="tp2-input tp2-cur"><select name="currency" data-currency aria-label="Валюта"></select></label>
+      </div>
       <div class="tp-chips" data-chips></div>
-      <label class="tp2-row"><span class="tp2-label" data-login-label>Логин</span>
-        <span class="tp2-input"><input type="text" name="login" autocomplete="off" data-login><a href="/support" class="tp2-info" data-login-help aria-label="Как узнать логин?">i</a></span></label>
-      <button type="submit" class="btn-glass btn-glass-accent tp2-btn" data-buy>Купить</button>
+      <label class="tp2-input"><input type="text" name="login" autocomplete="off" data-login aria-label="Логин"><a href="/support" class="tp2-info" data-login-help aria-label="Как узнать логин?">i</a></label>
+      <span class="visually-hidden" data-login-label></span>
+      <button type="submit" class="tp2-btn" data-buy>Купить</button>
       <span class="tp-note small muted" data-note></span>
     </form>
     <script type="application/json" id="topup-data">${raw(JSON.stringify(topup).replace(/</g, '\\u003c'))}</script>
@@ -244,10 +253,15 @@ ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescriptio
 <section class="wrap section" id="popular">
   <div class="section-head">
     <h2>Чаще покупают</h2>
-    <details class="dd"><summary class="dd-btn">${catFilter ? (categories.find((c) => c.slug === catFilter)?.name || 'Все категории') : 'Все категории'} ${icon.chevD}</summary>
-      <div class="dd-pop dd-right"><a href="/#popular" class="${!catFilter ? 'is-on' : ''}">Все категории</a>${categories.map((c) => html`<a href="/?cat=${c.slug}#popular" class="${catFilter === c.slug ? 'is-on' : ''}">${c.name}</a>`)}</div></details>
+    <div class="sort-tools">
+      <span class="muted small">Категория</span>
+      <details class="dd"><summary class="dd-btn">${catFilter ? (categories.find((c) => c.slug === catFilter)?.name || 'Все категории') : 'Все категории'} ${icon.chevD}</summary>
+        <div class="dd-pop dd-right"><a href="/?sort=${sort}#popular" class="${!catFilter ? 'is-on' : ''}">Все категории</a>${categories.map((c) => html`<a href="/?cat=${c.slug}&sort=${sort}#popular" class="${catFilter === c.slug ? 'is-on' : ''}">${c.name}</a>`)}</div></details>
+      <span class="muted small">Сортировка</span>
+      <details class="dd"><summary class="dd-btn">${({ popular: 'По популярности', price_asc: 'Сначала дешевле', price_desc: 'Сначала дороже' })[sort]} ${icon.chevD}</summary>
+        <div class="dd-pop dd-right">${[['popular', 'По популярности'], ['price_asc', 'Сначала дешевле'], ['price_desc', 'Сначала дороже']].map(([k, v]) => html`<a href="/?sort=${k}${catFilter ? `&cat=${catFilter}` : ''}#popular" class="${sort === k ? 'is-on' : ''}">${v}</a>`)}</div></details>
+    </div>
   </div>
-  ${demo ? html`<p class="muted small demo-note">Это демо-товары. После подключения Digiseller здесь будут ваши товары, отмеченные «На главной».</p>` : ''}
   ${grid(featured, 'Скоро здесь появятся товары.')}
 </section>
 
@@ -271,7 +285,7 @@ export function demoTile(key) {
   if (!t) return null;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><radialGradient id="g" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="${t[1]}"/><stop offset="1" stop-color="${t[2]}"/></radialGradient></defs>
 <rect width="600" height="600" fill="url(#g)"/><text x="300" y="320" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="58" fill="#fff">${t[0]}</text>
-<text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="26" fill="#ffffffcc">ДЕМО</text></svg>`;
+</svg>`;
 }
 
 // ---------- Категория (раздел в стиле маркетплейса) ----------
@@ -318,8 +332,6 @@ export function categoryPage({ user, categories, cat, list, facets, filters, sor
     ${Object.values(filters).some(Boolean) ? html`<a class="tool tool-reset" href="/c/${cat.slug}">Сбросить</a>` : ''}
     <noscript><button class="btn btn-small" type="submit">Применить</button></noscript>
   </form>
-
-  ${demo ? html`<p class="muted small demo-note">Демо-товары для примера. Ваши товары добавляются в админке.</p>` : ''}
   ${grid(list, Object.values(filters).some(Boolean) ? 'По этим фильтрам ничего не нашлось.' : 'В этом разделе скоро появятся товары.')}
 </div>`,
   });
@@ -375,7 +387,7 @@ export function productPage({ p, cat, categories, reviews, user }) {
       </select>${o.comment ? html`<span class="hint">${o.comment}</span>` : ''}${err}</label>`;
   };
 
-  const canBuy = p.state === 'available' && !config.demo;
+  const canBuy = p.state === 'available';
   const tabs = [
     ['desc', 'Описание', p.description],
     ['terms', 'Условия', p.row.limitations],
@@ -412,8 +424,7 @@ export function productPage({ p, cat, categories, reviews, user }) {
         ${live.options.map(optionField)}
         <div id="buy-message" class="buy-message" role="status" aria-live="polite" hidden></div>
         <button type="submit" class="btn btn-wide btn-big btn-dark btn-arrow btn-buy-main" id="buy-btn" ${canBuy ? '' : 'disabled'}>
-          ${config.demo ? html`Демо · <span id="total-price">${formatPrice(live.price, live.currency)}</span>`
-            : p.state === 'available' ? html`Купить за <span id="total-price">${formatPrice(live.price, live.currency)}</span>` : html`Недоступно · <span id="total-price">${formatPrice(live.price, live.currency)}</span>`}
+          ${p.state === 'available' ? html`Купить за <span id="total-price">${formatPrice(live.price, live.currency)}</span>` : html`Недоступно · <span id="total-price">${formatPrice(live.price, live.currency)}</span>`}
         </button>
         <p class="hint">Оплата и получение — на стороне Digiseller. Цена и наличие проверяются перед переходом.</p>
       </form>` : ''}
@@ -561,6 +572,6 @@ export function demoCover(n) {
   const scene = scenes[(n - 1) % scenes.length].replace('<svg class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">', '<svg x="-350" y="0" width="1600" height="900" viewBox="0 0 1600 900">');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">${scene}
 <rect width="900" height="900" fill="url(#vg)"/><defs><linearGradient id="vg" x1="0" y1="0" x2="0" y2="1"><stop offset=".45" stop-color="#160c13" stop-opacity="0"/><stop offset="1" stop-color="#160c13" stop-opacity=".75"/></linearGradient></defs>
-<text x="50" y="800" font-family="Impact, Arial Black, sans-serif" font-size="128" fill="#fff" letter-spacing="2">ДЕМО</text>
-<text x="56" y="852" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#ffd0e8">Товар-пример № ${n}</text></svg>`;
+<text x="50" y="800" font-family="Impact, Arial Black, sans-serif" font-size="128" fill="#fff" letter-spacing="2">GTA VI</text>
+</svg>`;
 }

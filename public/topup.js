@@ -27,6 +27,7 @@
   };
   const select = (i) => {
     t = tabsCfg[i];
+    if (t.brand) box.dataset.brand = t.brand;
     box.querySelectorAll('.ttab').forEach((b, j) => { b.classList.toggle('is-on', i === j); b.setAttribute('aria-selected', i === j); });
     chips.innerHTML = '';
     for (const v of t.chips) { const c = document.createElement('button'); c.type = 'button'; c.dataset.v = v; c.textContent = `${fmt(v)} ${sym[t.currencies[0]] || ''}`; chips.append(c); }

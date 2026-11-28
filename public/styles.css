@@ -569,3 +569,117 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .spot-media img { position: absolute; inset: 0; }
 .spot-big .spot-media { height: auto; min-height: 200px; }
 .spot-col .spot { min-height: 172px; }
+
+/* ======================= ВАРИАНТ 2 · правки ======================= */
+/* Шапка: справа две строки — язык/валюта/тема и помощь/заказы/профиль */
+.head-right { display: grid; gap: 4px; justify-items: end; flex: none; }
+.head-top { display: flex; gap: 6px; align-items: center; }
+.mini-pill { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 99px; border: 1px solid var(--border); font-size: .78rem; font-weight: 600; color: var(--muted); }
+.head-bottom { display: flex; gap: 2px; }
+.hb { display: inline-flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 10px; color: var(--text); text-decoration: none; font-size: .84rem; font-weight: 600; }
+.hb:hover { background: var(--surface-2); }
+.hb svg { width: 16px; height: 16px; }
+@media (max-width: 980px) { .head-top .mini-pill { display: none; } .hb span { display: none; } }
+
+/* Переключатель темы «затмение»: оранжевое солнце закрывает фиолетовая луна */
+.eclipse { width: 46px; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; }
+.ec-track { position: relative; display: block; width: 100%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #2a1640, #1b1026); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); overflow: hidden; }
+.ec-sun { position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffc27a, #ff6a13 60%, #e8480c); box-shadow: 0 0 10px 2px rgba(255, 106, 19, .65); transition: transform .45s cubic-bezier(.3, 1.3, .5, 1), box-shadow .45s; }
+.ec-moon { position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 60% 40%, #b28cff, #6a3ccf 70%); transform: translateX(-26px); transition: transform .45s cubic-bezier(.3, 1.3, .5, 1); }
+:root:not([data-theme="dark"]) .ec-track { background: linear-gradient(90deg, #ffe4cc, #f1e2ff); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06); }
+:root[data-theme="dark"] .ec-sun { transform: translateX(20px); box-shadow: 0 0 12px 3px rgba(178, 140, 255, .55); }
+:root[data-theme="dark"] .ec-moon { transform: translateX(16px); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ec-track { background: linear-gradient(90deg, #2a1640, #1b1026); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); }
+  :root:not([data-theme="light"]) .ec-sun { transform: translateX(20px); box-shadow: 0 0 12px 3px rgba(178, 140, 255, .55); }
+  :root:not([data-theme="light"]) .ec-moon { transform: translateX(16px); }
+}
+.eclipse:hover .ec-sun { box-shadow: 0 0 14px 4px rgba(255, 106, 19, .8); }
+
+/* Баннер: снова узкий, лента с перетаскиванием */
+.hero-stage { aspect-ratio: 1710 / 360; }
+.is-track .hslide { opacity: 1; visibility: visible; transition: none; will-change: transform; }
+.is-track .hslide.is-active .hslide-bg img, .is-track .hslide .hslide-bg img, .is-track .hslide-bg { animation: none !important; transform: none !important; }
+.is-dragging, .is-dragging * { cursor: grabbing !important; }
+
+/* Стекло с подсветкой (как на макете) */
+.showcase { margin-top: 26px; gap: 16px; }
+.glow { opacity: .7; filter: blur(70px); }
+.glow-a { background: radial-gradient(circle, #ff7a2a, #b03cff 45%, transparent 70%); }
+.glow-b { background: radial-gradient(circle, var(--b, #3d8bff), transparent 65%); transition: background .4s; }
+.glass { border-radius: 24px; padding: 12px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .32));
+  border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 0 0 1px rgba(255, 255, 255, .25), 0 24px 60px rgba(20, 10, 30, .12); }
+:root[data-theme="dark"] .glass { background: linear-gradient(160deg, rgba(48, 40, 62, .55), rgba(16, 14, 24, .5)); border-color: rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .5); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .glass { background: linear-gradient(160deg, rgba(48, 40, 62, .55), rgba(16, 14, 24, .5)); border-color: rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .5); } }
+.glass-orange { outline: 0; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 0 1.5px rgba(255, 140, 60, .75), 0 0 28px rgba(255, 106, 19, .35), 0 0 60px rgba(176, 60, 255, .18); }
+
+/* Главные товары: большой 4:3, маленькие — квадратные обложки */
+.spot-box { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 10px; }
+.spot-col { gap: 10px; }
+.spot { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0; border-radius: 16px; overflow: hidden; min-height: 0 !important; }
+.spot-col .spot .spot-media { width: clamp(96px, 9.5vw, 128px); aspect-ratio: 1 / 1; height: auto; min-height: 0; align-self: start; margin: 8px 0 8px 8px; border-radius: 12px; }
+.spot-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 1px; }
+.spot-info { min-width: 0; }
+.spot-price { font-size: 1.3rem; }
+.spot-title { font-weight: 800; font-size: .95rem; }
+.spot-sub { font-size: .75rem; color: var(--muted); line-height: 1.3; }
+.spot-buy { margin-top: auto !important; width: 100%; min-height: 34px !important; border-radius: 10px !important; align-self: stretch !important; }
+.spot-big.spot { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
+.spot-big .spot-media { aspect-ratio: 4 / 3; height: auto !important; min-height: 0 !important; margin: 8px 8px 0; border-radius: 12px; }
+.spot-big .spot-body { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 10px; display: flex; }
+.spot-big .spot-buy { width: auto; padding: 0 22px; margin-top: 0 !important; }
+.spot-big .spot-price { font-size: 1.5rem; }
+
+/* Пополнение: всё прозрачно-серое, активная вкладка красит рамку, свечение и кнопку в цвет бренда */
+.topup2 { --b: #1a9fff; --bgrad: linear-gradient(135deg, #3aa8ff, #1a73e8); transition: box-shadow .4s; padding: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 0 1.5px color-mix(in srgb, var(--b) 80%, transparent), 0 0 30px color-mix(in srgb, var(--b) 35%, transparent) !important; outline: 0 !important; }
+.topup2[data-brand="steam"] { --b: #1a9fff; --bgrad: linear-gradient(135deg, #4cb4ff, #1a73e8); }
+.topup2[data-brand="ps"] { --b: #2f6bff; --bgrad: linear-gradient(135deg, #4d86ff, #0046c7); }
+.topup2[data-brand="gta"] { --b: #ff4fb3; --bgrad: linear-gradient(120deg, #ffc65a 0%, #ff5fa8 45%, #9b4dff 100%); }
+.topup2[data-brand="xbox"] { --b: #2fbf3a; --bgrad: linear-gradient(135deg, #52d65b, #0f7d1a); }
+.topup2[data-brand="tg"] { --b: #2aabee; --bgrad: linear-gradient(135deg, #5cc6ff, #1c8fd6); }
+.topup2[data-brand="apple"] { --b: #b8bfcc; --bgrad: linear-gradient(135deg, #f4f5f8, #9aa1ad); }
+.tp2-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.topup2 .ttab { flex-direction: row; justify-content: flex-start; gap: 8px; min-height: 46px; padding: 6px 10px; text-align: left; border: 1px solid color-mix(in srgb, var(--text) 8%, transparent) !important; background: var(--gi) !important; color: var(--muted); transition: background .25s, border-color .25s, box-shadow .25s; }
+.topup2 .ttab .ttab-ico { color: var(--muted); flex: none; }
+.ttab-txt { display: grid; line-height: 1.15; min-width: 0; }
+.ttab-txt b { font-size: .8rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ttab-txt small { font-size: .68rem; color: var(--muted); font-weight: 600; }
+.topup2 .ttab.is-on { background: color-mix(in srgb, var(--b) 22%, transparent) !important; border-color: color-mix(in srgb, var(--b) 85%, transparent) !important; box-shadow: 0 0 14px color-mix(in srgb, var(--b) 35%, transparent); }
+.topup2 .ttab.is-on .ttab-ico { color: var(--b); }
+.topup2[data-brand="gta"] .ttab.is-on { background: linear-gradient(120deg, rgba(255, 198, 90, .25), rgba(255, 95, 168, .25), rgba(155, 77, 255, .25)) !important; }
+.topup2[data-brand="apple"] .ttab.is-on .ttab-ico { color: var(--text); }
+.tp2-cap { font-size: .82rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+.tp2-line { display: flex; gap: 6px; }
+.tp2-grow { flex: 1; }
+.tp2-in-label { font-size: .78rem; color: var(--muted); font-weight: 600; flex: none; margin-right: 6px; }
+.tp2-cur { flex: none; padding: 0 6px; }
+.tp2-cur select { max-width: none !important; color: var(--text) !important; }
+.tp2-input { min-height: 40px; }
+.topup2 .tp-chips { margin: 0; }
+.tp2-btn { width: 100%; min-height: 50px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .35); cursor: pointer; font: inherit; font-weight: 800; font-size: 1.08rem; color: #fff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, 0) 55%), var(--bgrad);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 10px 24px color-mix(in srgb, var(--b) 35%, transparent); transition: filter .2s, transform .15s, background .4s; }
+.tp2-btn:hover { filter: brightness(1.08); }
+.tp2-btn:active { transform: translateY(1px); }
+.topup2[data-brand="apple"] .tp2-btn { color: #121212; }
+
+/* Чаще покупают: карточки-панели, кнопка «Купить» чуть ниже */
+.sort-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sort-tools .dd-btn { min-height: 38px; font-size: .88rem; }
+.pcard { background: var(--card); border-radius: 18px; overflow: hidden; padding: 0; }
+.pcard-media { border: 0; border-radius: 18px 18px 0 0; }
+.pcard-body { padding: 10px 12px 12px; }
+.pcard-title { font-weight: 800; font-size: .98rem; min-height: 0; -webkit-line-clamp: 1; }
+.pcard-sub { font-size: .82rem; color: var(--muted); line-height: 1.3; min-height: 2.6em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pcard .btn-buy { min-height: 34px; margin-top: 10px; font-size: .88rem; }
+.pgrid { column-gap: 16px; row-gap: 20px; }
+/* подсветка главных товаров — сильнее любых тем */
+.showcase .glass.glass-orange { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 0 0 1.5px rgba(255, 140, 60, .8), 0 0 30px rgba(255, 106, 19, .4), 0 0 70px rgba(176, 60, 255, .25) !important; }
+.spot-big .spot-buy { min-height: 34px !important; height: 34px; align-self: flex-end !important; }
+/* «Купить» — чёрная стеклянная во всех темах */
+.pcard .btn-buy { background: linear-gradient(180deg, #2a2a30, #0c0c0f) !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18); }
+.pcard .btn-buy:hover { background: linear-gradient(180deg, #3a3a42, #15151a) !important; }
+.pcard-off .btn-buy { opacity: .6; }

@@ -35,7 +35,8 @@ export const config = {
   dbPath: env('DB_PATH', path.join(root, 'data', 'reset.sqlite')),
 
   // Демо-режим включается, только если не задан продавец Digiseller.
-  get demo() { return !this.digiseller.sellerId; },
+  // Демо-витрина — только локально: на боевом сервере без Digiseller витрина просто пустая
+  get demo() { return !this.digiseller.sellerId && !this.isProd; },
 
   digiseller: {
     sellerId: env('DIGISELLER_SELLER_ID'),

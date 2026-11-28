@@ -61,9 +61,11 @@ const readJson = (file, fallback) => { try { return JSON.parse(fs.readFileSync(p
 // ---------- Витрина ----------
 app.get('/', async (req, res) => {
   const cat = typeof req.query.cat === 'string' ? catalog.getCategoryBySlug(req.query.cat) : null;
-  const featured = cat ? (await catalog.categoryProducts(cat)).list.slice(0, 18) : await catalog.featured(18);
+  const sort = ['popular', 'price_asc', 'price_desc'].includes(req.query.sort) ? req.query.sort : 'popular';
+  let featured = cat ? (await catalog.categoryProducts(cat, { sort })).list.slice(0, 18) : await catalog.featured(18);
+  if (!cat && sort !== 'popular') featured = [...featured].sort((a, b) => ((a.live?.price ?? 1e9) - (b.live?.price ?? 1e9)) * (sort === 'price_asc' ? 1 : -1));
   const spot = await catalog.spotlight(readJson('spotlight.json', []));
-  res.send(String(views.homePage({ user: req.user, categories: req.cats, featured, spot, demo: catalog.isDemoStorefront(), catFilter: cat?.slug || '',
+  res.send(String(views.homePage({ user: req.user, categories: req.cats, featured, spot, demo: catalog.isDemoStorefront(), catFilter: cat?.slug || '', sort,
     reviews: catalog.allReviews(6), faq: readJson('faq.json', []), banners: readJson('banners.json', []).slice(0, 6),
     tiles: readJson('tiles.json', []), topup: readJson('topup.json', []) })));
 });
@@ -127,7 +129,7 @@ app.post('/api/checkout', express.json({ limit: '20kb' }), async (req, res) => {
   if (typeof slug !== 'string' || typeof idempotencyKey !== 'string' || idempotencyKey.length < 16 || idempotencyKey.length > 100 || typeof options !== 'object') {
     return res.status(400).json({ status: 'error', code: 'bad_request' });
   }
-  if (config.demo || slug.startsWith('demo-')) return res.json({ status: 'error', code: 'demo', message: 'В демо-режиме покупка недоступна.' });
+  if (config.demo || slug.startsWith('demo-')) return res.json({ status: 'error', code: 'demo', message: 'Покупка откроется после подключения Digiseller.' });
 
   // Повторный запрос с тем же ключом не создаёт новую подготовку оплаты
   const prev = db.prepare('SELECT * FROM checkout_attempts WHERE idempotency_key = ?').get(idempotencyKey);
