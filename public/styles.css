@@ -758,22 +758,6 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .catalog-pop { animation: pop .22s cubic-bezier(.2, .8, .2, 1); transform-origin: top left; }
 @keyframes pop { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
 
-/* Переключатель темы: солнце и луна видны всегда, подсвеченный «бегунок» под активным */
-.eclipse { width: 54px; height: 28px; }
-.ec-track { background: linear-gradient(90deg, rgba(255, 106, 19, .14), rgba(140, 90, 255, .16)) !important; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 12%, transparent) !important; }
-.ec-knob { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 4px rgba(0, 0, 0, .2); transition: transform .4s cubic-bezier(.3, 1.3, .5, 1); }
-.ec-sun, .ec-moon { width: 14px !important; height: 14px !important; top: 7px !important; transform: none !important; transition: opacity .3s, box-shadow .3s !important; }
-.ec-sun { left: 7px !important; box-shadow: 0 0 8px 2px rgba(255, 106, 19, .6) !important; }
-.ec-moon { left: auto !important; right: 7px; background: radial-gradient(circle at 60% 40%, #c3a6ff, #6a3ccf 70%) !important; opacity: .45; }
-:root[data-theme="dark"] .ec-knob { transform: translateX(26px); }
-:root[data-theme="dark"] .ec-sun { opacity: .45; box-shadow: none !important; }
-:root[data-theme="dark"] .ec-moon { opacity: 1; box-shadow: 0 0 8px 2px rgba(150, 110, 255, .65); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .ec-knob { transform: translateX(26px); }
-  :root:not([data-theme="light"]) .ec-sun { opacity: .45; box-shadow: none !important; }
-  :root:not([data-theme="light"]) .ec-moon { opacity: 1; box-shadow: 0 0 8px 2px rgba(150, 110, 255, .65); }
-}
-
 /* Точки баннера длиннее */
 .hdot { width: 36px; height: 6px; }
 .hero-dots { gap: 8px; padding: 7px 10px; }
@@ -794,10 +778,6 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 /* Пополнение: Steam — от тёмного к светлому, мягче; GTA — розовый → жёлтый, приглушённо */
 .topup2[data-brand="steam"] { --b: #3d82c4; --bgrad: linear-gradient(135deg, #22466e 0%, #2d6aa5 55%, #4a96d8 100%); }
 .topup2[data-brand="gta"] { --b: #e98ac4; --bgrad: linear-gradient(135deg, #e47fbf 0%, #ee9fb0 50%, #f3cf8c 100%); }
-.topup2[data-brand="gta"] { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 30px rgba(233, 138, 196, .3) !important; border: 2px solid transparent !important;
-  background: linear-gradient(160deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .32)) padding-box, linear-gradient(135deg, #ea8cc6, #f0b7a8, #f3d08c) border-box !important; }
-:root[data-theme="dark"] .topup2[data-brand="gta"] { background: linear-gradient(160deg, rgba(48, 40, 62, .9), rgba(16, 14, 24, .9)) padding-box, linear-gradient(135deg, #ea8cc6, #f0b7a8, #f3d08c) border-box !important; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .topup2[data-brand="gta"] { background: linear-gradient(160deg, rgba(48, 40, 62, .9), rgba(16, 14, 24, .9)) padding-box, linear-gradient(135deg, #ea8cc6, #f0b7a8, #f3d08c) border-box !important; } }
 .topup2[data-brand="gta"] .ttab.is-on { background: linear-gradient(135deg, rgba(234, 140, 198, .22), rgba(243, 208, 140, .22)) !important; border-color: #ea8cc6 !important; }
 .topup2[data-brand="gta"] .tp2-btn { color: #3a1830; }
 .spot-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -811,3 +791,28 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 }
 @media (max-width: 360px) { .pcard-title { font-size: .76rem !important; } .spot-title { font-size: .78rem !important; } .pgrid { column-gap: 8px; } .pcard-body { padding: 8px 8px 10px; } }
 @media (max-width: 400px) { .spot-title { -webkit-line-clamp: 3 !important; } }
+
+/* ===== правки 5 ===== */
+/* GTA: градиент только у рамки и кнопки, фон блока прежний */
+.topup2::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: linear-gradient(135deg, #ea8cc6, #f0b7a8, #f3d08c);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.topup2[data-brand="gta"]::before { opacity: 1; }
+.topup2[data-brand="gta"] { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 26px rgba(233, 138, 196, .28) !important; }
+/* выбранная сумма — в цвет сервиса */
+.topup2 .tp-chips button.is-on { color: var(--b) !important; background: color-mix(in srgb, var(--b) 14%, transparent) !important; }
+.topup2[data-brand="gta"] .tp-chips button.is-on { color: #d4569f !important; }
+.topup2[data-brand="apple"] .tp-chips button.is-on { color: var(--text) !important; }
+/* подсветка левого блока — слабее на ~15% */
+.glow-a { opacity: .62 !important; }
+:root[data-theme="dark"] .glow-a { opacity: .47 !important; }
+.showcase .glass.glass-orange { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 0 0 1.5px rgba(255, 140, 60, .7), 0 0 26px rgba(255, 106, 19, .32), 0 0 60px rgba(176, 60, 255, .2) !important; }
+/* тонкие переключатели баннеров */
+.hdot { height: 3px !important; width: 36px; }
+.hero-dots { padding: 7px 10px; }
+/* мини-баннеры опущены: видно больше верха; Xbox и PlayStation — ещё ниже */
+.tile img { object-position: center 12% !important; }
+.tile-xbox img, .tile-ps img { object-position: center 0% !important; }
+/* «Купить» на GTA VI — в цвет GTA, мягкий */
+.spot.spot-big .spot-buy-big { background: linear-gradient(135deg, #e991c6 0%, #f0b4ad 50%, #f2d394 100%) !important; color: #3a1830 !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 6px 18px rgba(233, 145, 198, .3) !important; }
+.spot.spot-big .spot-buy-big:hover { filter: brightness(1.05) !important; }

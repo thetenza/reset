@@ -91,7 +91,7 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
       <div class="head-top">
         <span class="mini-pill"><span class="flag-ru" aria-hidden="true"></span>Русский</span>
         <span class="mini-pill">RUB ₽</span>
-        <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-knob"></span><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
+        <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
       </div>
       <nav class="head-bottom" aria-label="Аккаунт">
         <a href="${user ? '/account' : '/login'}" class="hb">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
