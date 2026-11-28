@@ -1042,3 +1042,18 @@ h1, h2, .cat-h1 { font-weight: 800 !important; letter-spacing: -.02em; }
 .btn, .btn-buy, .tp2-btn, .btn-glass { font-weight: 600 !important; }
 .hb, .tp2-lbl, .tp-help, .tp2-cap, .label, .footer-links a, .ttab-txt b, .dd-btn, .region2-btn, .r2-opt { font-weight: 500 !important; }
 .hs-title { text-wrap: balance; }
+
+/* ===== правки 14: пополнение ===== */
+.tp2-row2 { grid-template-columns: 116px minmax(0, 1fr) !important; }
+.tp2-chips { margin-left: 126px !important; }
+@media (max-width: 560px) { .tp2-row2 { grid-template-columns: 1fr !important; } .tp2-chips { margin-left: 0 !important; } }
+/* рамка полей при вводе — цвет выбранного сервиса */
+.topup2 .tp2-input:focus-within { outline: 2px solid var(--b) !important; outline-offset: -1px; }
+.topup2[data-brand="gta"] .tp2-input:focus-within { outline-color: #e991c6 !important; }
+/* суммы: невыбранные — приглушённо-серые, выбранная — контрастно в цвет сервиса */
+.topup2 .tp-chips button { background: color-mix(in srgb, var(--text) 8%, transparent) !important; color: color-mix(in srgb, var(--text) 75%, transparent) !important; border: 1px solid transparent; }
+.topup2 .tp-chips button:hover { background: color-mix(in srgb, var(--text) 12%, transparent) !important; }
+.topup2 .tp-chips button.is-on { background: color-mix(in srgb, var(--b) 24%, transparent) !important; border-color: color-mix(in srgb, var(--b) 70%, transparent) !important; color: var(--b) !important; }
+.topup2[data-brand="gta"] .tp-chips button.is-on { background: rgba(233, 145, 198, .22) !important; border-color: #e991c6 !important; color: #c94b90 !important; }
+.topup2[data-brand="apple"] .tp-chips button.is-on { color: #7a5fc0 !important; }
+:root[data-theme="dark"] .topup2[data-brand="steam"] .tp-chips button.is-on { color: #8ccaf5 !important; }

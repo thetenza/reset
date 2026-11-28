@@ -41,7 +41,8 @@
     "min": 100,
     "max": 20000,
     "loginLabel": "Email PSN",
-    "loginHelp": "Email, к которому привязан аккаунт PlayStation."
+    "loginHelp": "Email, к которому привязан аккаунт PlayStation.",
+    "balanceName": "PS"
   },
   {
     "name": "GTA VI",

@@ -34,7 +34,7 @@
     cur.innerHTML = t.currencies.map((c) => `<option value="${c}">${c}${sym[c] ? `, ${sym[c]}` : ''}</option>`).join('');
     box.querySelector('[data-login-label]').textContent = t.loginLabel;
     const ll = box.querySelector('[data-login-label-vis]'); if (ll) ll.textContent = t.loginLabel;
-    const tn = box.querySelector('[data-tab-name]'); if (tn) tn.textContent = t.short || t.name;
+    const tn = box.querySelector('[data-tab-name]'); if (tn) tn.textContent = t.balanceName || t.short || t.name;
     login.placeholder = t.loginLabel;
     box.querySelector('[data-login-help]').title = t.loginHelp;
     amount.value = t.chips[1] ?? t.chips[0];
