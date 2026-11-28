@@ -87,3 +87,12 @@ document.querySelectorAll('[data-accent-toggle]').forEach((b) => b.addEventListe
   render();
 })();
 document.addEventListener('click', (e) => document.querySelectorAll('details.dd[open]').forEach((d) => { if (!d.contains(e.target)) d.removeAttribute('open'); }));
+
+// Вся карточка товара кликабельна (кроме сердечка)
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('.pcard, .spot');
+  if (!card || e.target.closest('.fav, a, button')) return;
+  const link = card.querySelector('.pcard-title, .spot-title');
+  if (!link) return;
+  if (e.ctrlKey || e.metaKey || e.button === 1) window.open(link.href, '_blank'); else location.href = link.href;
+});
