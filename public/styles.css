@@ -930,28 +930,19 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 @media (max-width: 760px) { .catalog-menu .btn-catalog { padding: 0 12px; min-width: 0; } .head-right { margin-left: auto; gap: 6px; } .region2-btn { padding: 0 8px; gap: 4px; } .logo-svg { height: 26px; } }
 @media (max-width: 360px) { .region2-btn svg:last-child { display: none; } .header-row { gap: 8px; } .logo-svg { height: 22px; } .catalog-menu .btn-catalog { padding: 0 10px; min-height: 40px; } .hb-login { padding: 4px; } }
 
-/* ===== правки 9: компактнее, как у маркетплейсов ===== */
-.wrap { max-width: 1480px; padding: 0 24px; }
-@media (max-width: 760px) { .wrap { padding: 0 16px; } }
-.pgrid { column-gap: 14px !important; row-gap: 18px !important; }
-.pcard { border-radius: 14px; }
-.pcard-media { border-radius: 14px 14px 0 0 !important; }
-.pcard-body { padding: 8px 10px 10px !important; gap: 1px !important; }
-.pcard-price { font-size: 1.12rem !important; }
-.pcard-title { font-size: .84rem !important; line-height: 1.28 !important; min-height: 2.56em !important; font-weight: 500 !important; }
-.pcard-sales { font-size: .72rem !important; }
-.pcard .btn-buy { min-height: 32px !important; margin-top: 8px !important; font-size: .84rem !important; border-radius: 9px !important; }
-.fav { width: 30px; height: 30px; top: 7px; right: 7px; }
-.fav svg { width: 15px; height: 15px; }
-.fav::after { width: 15px; height: 15px; }
-.section { padding-top: 36px; }
-#popular .section-head { margin-bottom: 16px; }
-
-/* ===== правки 10 ===== */
+/* ===== правки 11 ===== */
+/* Шапка: поиск растягивается, кнопки справа у края */
+.search { max-width: none !important; }
+.head-right { margin-left: auto; }
+/* Сердечко: оранжевое у всех */
+.fav { --hg: linear-gradient(135deg, #ff9a4a, #ff5e1a) !important; }
+.pgrid .pcard .fav { --hg: linear-gradient(135deg, #ff9a4a, #ff5e1a) !important; }
+/* Карточки: светлее фон, кнопка во всю ширину карточки снизу, текст на пункт крупнее */
+:root { --card: #f6f5f2; }
+:root[data-theme="dark"] { --card: #1c1c20; }
+.pcard { display: flex; flex-direction: column; }
+.pcard-body { padding: 10px 12px 0 !important; flex: 1; }
+.pcard .btn-buy { margin: 10px -12px 0 !important; width: calc(100% + 24px); border-radius: 0 0 18px 18px !important; min-height: 38px !important; }
+.pcard-title { font-size: 1.04rem !important; }
+.pcard-sales { font-size: .84rem !important; }
 .spot-over .spot-sub { margin-top: 3px; }
-/* Маленькие главные товары: картинка во всю высоту карточки (шире, чем выше), кнопка — на уровне низа картинки */
-.spot-col .spot { align-items: stretch; }
-.spot-col .spot .spot-media { aspect-ratio: auto !important; align-self: stretch !important; height: auto !important; width: clamp(120px, 10.5vw, 150px) !important; margin: 8px 0 8px 8px !important; }
-.spot-col .spot-body { padding: 8px 12px 8px 14px !important; justify-content: space-between; }
-.spot-col .spot-buy { margin-top: 8px !important; }
-.spot-col .spot .spot-media { width: clamp(150px, 12vw, 172px) !important; }
