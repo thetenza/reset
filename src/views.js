@@ -219,7 +219,6 @@ function spotCard(p, big = false) {
       <div class="spot-info">
         ${price ? html`<div class="spot-price">${price}</div>` : html`<div class="spot-price pcard-price-err">Цена уточняется</div>`}
         <a class="spot-title" href="${href}">${p.title}</a>
-        ${p.row.short && !big ? html`<div class="spot-sub">${p.row.short}</div>` : ''}
         ${p.sales != null ? html`<div class="spot-sub">${salesShort(p.sales)}</div>` : ''}
       </div>
       <a class="btn-buy spot-buy" href="${href}">Купить</a>

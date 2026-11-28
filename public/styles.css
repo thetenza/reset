@@ -946,3 +946,12 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .fav::after { width: 15px; height: 15px; }
 .section { padding-top: 36px; }
 #popular .section-head { margin-bottom: 16px; }
+
+/* ===== правки 10 ===== */
+.spot-over .spot-sub { margin-top: 3px; }
+/* Маленькие главные товары: картинка во всю высоту карточки (шире, чем выше), кнопка — на уровне низа картинки */
+.spot-col .spot { align-items: stretch; }
+.spot-col .spot .spot-media { aspect-ratio: auto !important; align-self: stretch !important; height: auto !important; width: clamp(120px, 10.5vw, 150px) !important; margin: 8px 0 8px 8px !important; }
+.spot-col .spot-body { padding: 8px 12px 8px 14px !important; justify-content: space-between; }
+.spot-col .spot-buy { margin-top: 8px !important; }
+.spot-col .spot .spot-media { width: clamp(150px, 12vw, 172px) !important; }
