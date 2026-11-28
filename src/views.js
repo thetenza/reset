@@ -250,16 +250,21 @@ ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescriptio
   ${topup.length ? html`<div class="glass topup2" data-topup data-brand="${topup[0].brand}" aria-label="Пополнение сервисов">
     <div class="tp2-head">${glyph('wallet', 20)}<b>Пополнение сервисов</b></div>
     <div class="tp2-tabs" role="tablist">
-      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ttab-${t.brand} ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${raw(brandIco[t.brand] || '')}</span><span class="ttab-txt"><b>${t.name}</b><small>${t.sub || ''}</small></span></button>`)}
+      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ttab-${t.brand} ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${raw(brandIco[t.brand] || '')}</span><span class="ttab-txt"><b>${t.short || t.name}</b></span></button>`)}
     </div>
     <form class="tp2-body" data-topup-form novalidate>
-      <div class="tp2-cap">Баланс <span data-tab-name>${topup[0].name}</span></div>
-      <div class="tp2-line">
-        <label class="tp2-input tp2-grow"><span class="tp2-in-label">Сумма</span><input type="text" inputmode="numeric" name="amount" value="${topup[0].chips?.[1] ?? 1000}" autocomplete="off"></label>
-        <label class="tp2-input tp2-cur"><select name="currency" data-currency aria-label="Валюта"></select></label>
+      <div class="tp2-row2">
+        <span class="tp2-lbl">Баланс <span data-tab-name>${topup[0].name}</span></span>
+        <div class="tp2-line">
+          <label class="tp2-input tp2-grow"><input type="text" inputmode="numeric" name="amount" value="${topup[0].chips?.[1] ?? 1000}" autocomplete="off" aria-label="Сумма"></label>
+          <label class="tp2-input tp2-cur"><select name="currency" data-currency aria-label="Валюта"></select></label>
+        </div>
       </div>
-      <div class="tp-chips" data-chips></div>
-      <label class="tp2-input"><input type="text" name="login" autocomplete="off" data-login aria-label="Логин"><a href="/support" class="tp2-info" data-login-help aria-label="Как узнать логин?">i</a></label>
+      <div class="tp-chips tp2-chips" data-chips></div>
+      <div class="tp2-row2">
+        <span class="tp2-lbl" data-login-label-vis>Логин</span>
+        <label class="tp2-input"><input type="text" name="login" autocomplete="off" data-login aria-label="Логин"><a href="/support" class="tp2-info" data-login-help aria-label="Как узнать логин?">i</a></label>
+      </div>
       <span class="visually-hidden" data-login-label></span>
       <button type="submit" class="tp2-btn" data-buy>Купить</button>
       <span class="tp-note small muted" data-note></span>
@@ -271,14 +276,8 @@ ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescriptio
 <section class="wrap section" id="popular">
   <div class="section-head">
     <h2>Чаще покупают</h2>
-    <div class="sort-tools">
-      <span class="muted small">Категория</span>
-      <details class="dd"><summary class="dd-btn">${catFilter ? (categories.find((c) => c.slug === catFilter)?.name || 'Все категории') : 'Все категории'} ${icon.chevD}</summary>
-        <div class="dd-pop dd-right"><a href="/?sort=${sort}#popular" class="${!catFilter ? 'is-on' : ''}">Все категории</a>${categories.map((c) => html`<a href="/?cat=${c.slug}&sort=${sort}#popular" class="${catFilter === c.slug ? 'is-on' : ''}">${c.name}</a>`)}</div></details>
-      <span class="muted small">Сортировка</span>
-      <details class="dd"><summary class="dd-btn">${({ popular: 'По популярности', price_asc: 'Сначала дешевле', price_desc: 'Сначала дороже' })[sort]} ${icon.chevD}</summary>
-        <div class="dd-pop dd-right">${[['popular', 'По популярности'], ['price_asc', 'Сначала дешевле'], ['price_desc', 'Сначала дороже']].map(([k, v]) => html`<a href="/?sort=${k}${catFilter ? `&cat=${catFilter}` : ''}#popular" class="${sort === k ? 'is-on' : ''}">${v}</a>`)}</div></details>
-    </div>
+    <details class="dd"><summary class="dd-btn">${catFilter ? (categories.find((c) => c.slug === catFilter)?.name || 'Все категории') : 'Все категории'} ${icon.chevD}</summary>
+      <div class="dd-pop dd-right"><a href="/#popular" class="${!catFilter ? 'is-on' : ''}">Все категории</a>${categories.map((c) => html`<a href="/?cat=${c.slug}#popular" class="${catFilter === c.slug ? 'is-on' : ''}">${c.name}</a>`)}</div></details>
   </div>
   ${grid(featured, 'Скоро здесь появятся товары.')}
 </section>

@@ -102,7 +102,8 @@
     "min": 50,
     "max": 10000,
     "loginLabel": "@username",
-    "loginHelp": "Имя пользователя Telegram, начинается с @."
+    "loginHelp": "Имя пользователя Telegram, начинается с @.",
+    "short": "Telegram"
   },
   {
     "name": "Apple Gift Card",
@@ -123,6 +124,7 @@
     "min": 5,
     "max": 500,
     "loginLabel": "Apple ID",
-    "loginHelp": "Email вашего Apple ID."
+    "loginHelp": "Email вашего Apple ID.",
+    "short": "Apple"
   }
 ]

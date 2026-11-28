@@ -33,6 +33,7 @@
     for (const v of t.chips) { const c = document.createElement('button'); c.type = 'button'; c.dataset.v = v; c.textContent = `${fmt(v)} ${sym[t.currencies[0]] || ''}`; chips.append(c); }
     cur.innerHTML = t.currencies.map((c) => `<option value="${c}">${c}${sym[c] ? `, ${sym[c]}` : ''}</option>`).join('');
     box.querySelector('[data-login-label]').textContent = t.loginLabel;
+    const ll = box.querySelector('[data-login-label-vis]'); if (ll) ll.textContent = t.loginLabel;
     const tn = box.querySelector('[data-tab-name]'); if (tn) tn.textContent = t.name;
     login.placeholder = t.loginLabel;
     box.querySelector('[data-login-help]').title = t.loginHelp;

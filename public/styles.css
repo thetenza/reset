@@ -729,3 +729,20 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .spot-big .spot-media { position: absolute !important; inset: 0 0 auto 0 !important; height: auto !important; aspect-ratio: 1 / 1 !important; }
 .spot-big .spot-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .spot-big .spot-media::after { background: linear-gradient(180deg, rgba(18, 12, 24, 0) 55%, rgba(18, 12, 24, .7) 82%, #120c18 100%) !important; }
+/* Пополнение как в макете: 6 плиток в ряд — значок сверху, название снизу; подписи полей слева */
+.tp2-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 6px; }
+.topup2 .ttab { flex-direction: column !important; justify-content: center !important; align-items: center; gap: 4px !important; min-height: 62px !important; padding: 8px 2px !important; text-align: center !important; }
+.topup2 .ttab .ttab-ico { width: auto; height: 22px; }
+.topup2 .ttab .ttab-ico svg { width: 22px; height: 22px; }
+.ttab-txt b { font-size: .7rem !important; font-weight: 700; white-space: nowrap; }
+/* у каждого сервиса свой цвет значка */
+.ttab-steam .ttab-ico { color: #1b5a95 !important; } .ttab-ps .ttab-ico { color: #0046c7 !important; }
+.ttab-gta .ttab-ico { color: #e83e9b !important; } .ttab-xbox .ttab-ico { color: #1a9a2a !important; }
+.ttab-tg .ttab-ico { color: #229ed9 !important; } .ttab-apple .ttab-ico { color: var(--text) !important; }
+:root[data-theme="dark"] .ttab-steam .ttab-ico { color: #66c0f4 !important; } :root[data-theme="dark"] .ttab-ps .ttab-ico { color: #6f9bff !important; }
+.topup2 .ttab:not(.is-on) .ttab-ico { opacity: .75; filter: saturate(.7); }
+.tp2-row2 { display: grid; grid-template-columns: 116px minmax(0, 1fr); align-items: center; gap: 10px; }
+.tp2-lbl { font-weight: 600; font-size: .9rem; }
+.tp2-chips { margin-left: 126px !important; }
+@media (max-width: 560px) { .tp2-tabs { grid-template-columns: repeat(3, 1fr) !important; } .tp2-row2 { grid-template-columns: 1fr; gap: 4px; } .tp2-chips { margin-left: 0 !important; } }
+.ttab-txt b { font-size: .64rem !important; letter-spacing: -.01em; overflow: visible !important; text-overflow: clip !important; }
