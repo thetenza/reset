@@ -1013,3 +1013,4 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .region2-btn { border: 0 !important; background: transparent; height: 36px; padding: 0 8px; gap: 6px; font-weight: 600; font-size: .85rem; color: var(--muted); border-radius: 10px; }
 .region2-btn:hover, .region2[open] .region2-btn { background: var(--surface-2); color: var(--text); }
 .region2-btn [hidden] { display: none !important; }
+.region2-btn { padding: 0 9px 0 6px !important; }
