@@ -12,14 +12,10 @@ const mark = (cls = 'mark') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.mar
 // Полный логотип: знак — фирменный оранжевый, надпись — цвет текста (белая в тёмной теме)
 // Полный логотип: знак R + надпись. Буквы надписи разнесены (G — отступ от знака, LS — межбуквенный интервал)
 const LOGO_WORD = (() => {
-  const subs = LOGO2.black.split(/(?=M)/);
-  const letterOf = [4, 2, 0, 0, 1, 3, 0]; // индекс буквы R-E-S-E-T для каждого контура
   const G = 46, LS = 26;
-  const groups = [[], [], [], [], []];
-  subs.forEach((d, i) => groups[letterOf[i]].push(d));
-  return { G, LS, w: LOGO2.w + G + LS * 4, paths: groups.map((g, i) => `<path transform="translate(${G + LS * i} 0)" fill="currentColor" fill-rule="evenodd" d="${g.join('')}"/>`).join('') };
+  return { G, LS, w: LOGO2.w + G + LS * 4, paths: LOGO2.letters.map((d, i) => `<path transform="translate(${G + LS * i} 0)" fill="currentColor" fill-rule="evenodd" d="${d}"/>`).join('') };
 })();
-const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 -22 ${LOGO_WORD.w} ${LOGO2.h + 44}" role="img" aria-label="${config.brand}"><g transform="translate(206.5 223.5) scale(1.1) translate(-206.5 -214.5)"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></g>${LOGO_WORD.paths}</svg>`);
+const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="-28 -30 ${LOGO_WORD.w + 34} ${LOGO2.h + 72}" role="img" aria-label="${config.brand}"><g transform="translate(206.5 223.5) scale(1.1) translate(-206.5 -214.5)"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></g>${LOGO_WORD.paths}</svg>`);
 const svgIcon = (d, size = 20) => raw(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`);
 const icon = {
   arrow: svgIcon('<path d="M5 12h14M13 6l6 6-6 6"/>', 16),
@@ -98,8 +94,10 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
     </form>
     <div class="head-right">
       <div class="head-top">
-        <span class="mini-pill"><span class="flag-ru" aria-hidden="true"></span>Русский</span>
-        <span class="mini-pill">RUB ₽</span>
+        <details class="dd mini-dd" data-pref="lang"><summary class="mini-pill"><span data-pref-label>Русский</span>${icon.chevD}</summary>
+          <div class="dd-pop dd-right">${[['ru', 'Русский'], ['en', 'English'], ['es', 'Español'], ['de', 'Deutsch'], ['pt', 'Português']].map(([k, v], i) => html`<button type="button" data-val="${k}" class="${i ? '' : 'is-on'}">${v}</button>`)}</div></details>
+        <details class="dd mini-dd" data-pref="cur"><summary class="mini-pill"><span data-pref-label>RUB ₽</span>${icon.chevD}</summary>
+          <div class="dd-pop dd-right">${[['RUB', 'RUB ₽'], ['USD', 'USD $'], ['EUR', 'EUR €']].map(([k, v], i) => html`<button type="button" data-val="${k}" class="${i ? '' : 'is-on'}">${v}</button>`)}</div></details>
         <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
       </div>
       <nav class="head-bottom" aria-label="Аккаунт">

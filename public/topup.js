@@ -17,10 +17,10 @@
     const a = num();
     const out = a && (a < t.min || a > t.max);
     if (!t.slug) {
-      btn.textContent = a ? `Купить за ${fmt(Math.round(a * t.rate))} ₽` : 'Купить';
+      btn.textContent = a ? `Купить за ${fmt(Math.round(a * t.rate))} ${sym[cur.value] || cur.value}` : 'Купить';
       note.textContent = '';
     } else {
-      btn.textContent = a ? `Купить за ${fmt(Math.round(a * t.rate))} ₽` : 'Купить';
+      btn.textContent = a ? `Купить за ${fmt(Math.round(a * t.rate))} ${sym[cur.value] || cur.value}` : 'Купить';
       note.textContent = out ? `Сумма от ${fmt(t.min)} до ${fmt(t.max)} ${sym[cur.value] || cur.value}` : 'Точная цена — на следующем шаге, до оплаты';
     }
     chips.querySelectorAll('button').forEach((c) => c.classList.toggle('is-on', Number(c.dataset.v) === a));
@@ -34,7 +34,7 @@
     cur.innerHTML = t.currencies.map((c) => `<option value="${c}">${c}${sym[c] ? `, ${sym[c]}` : ''}</option>`).join('');
     box.querySelector('[data-login-label]').textContent = t.loginLabel;
     const ll = box.querySelector('[data-login-label-vis]'); if (ll) ll.textContent = t.loginLabel;
-    const tn = box.querySelector('[data-tab-name]'); if (tn) tn.textContent = t.name;
+    const tn = box.querySelector('[data-tab-name]'); if (tn) tn.textContent = t.short || t.name;
     login.placeholder = t.loginLabel;
     box.querySelector('[data-login-help]').title = t.loginHelp;
     amount.value = t.chips[1] ?? t.chips[0];

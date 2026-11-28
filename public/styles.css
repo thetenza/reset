@@ -854,3 +854,29 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .pcard:hover .pcard-media { box-shadow: none !important; }
 .pcard-title, .pcard-title:hover, .spot-title:hover { color: var(--text) !important; }
 .pcard-title { font-weight: 600 !important; }
+
+/* ===== правки 7 ===== */
+/* Тумблер: быстрая простая смена, без «прыжка» */
+.ec-sun, .ec-moon { transition: transform .22s ease, box-shadow .22s ease !important; animation: none !important; }
+
+/* Язык и валюта — выпадающие */
+.mini-dd summary { list-style: none; cursor: pointer; gap: 4px; }
+.mini-dd summary::-webkit-details-marker { display: none; }
+.mini-dd summary svg { width: 12px; height: 12px; }
+.mini-dd .dd-pop { min-width: 150px; z-index: 40; }
+.mini-dd .dd-pop button { text-align: left; padding: 8px 12px; border: 0; background: none; border-radius: 10px; font: inherit; font-weight: 600; color: var(--text); cursor: pointer; }
+.mini-dd .dd-pop button:hover, .mini-dd .dd-pop button.is-on { background: var(--surface-2); }
+
+/* Apple: глубокий графит → тёплый лавандово-розовый */
+.topup2[data-brand="apple"] { --b: #9a7fd1; --bgrad: linear-gradient(135deg, #2e2a3d 0%, #5d4f86 50%, #c6a6d8 100%); }
+.topup2[data-brand="apple"] .tp2-btn { color: #fff !important; }
+
+/* Сердечко — стеклянное, прозрачное */
+.fav { background: rgba(255, 255, 255, .16) !important; border: 1px solid rgba(255, 255, 255, .45) !important; color: #fff !important;
+  backdrop-filter: blur(10px) saturate(1.4); -webkit-backdrop-filter: blur(10px) saturate(1.4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 4px 12px rgba(0, 0, 0, .15); }
+.fav:hover { transform: none !important; background: rgba(255, 255, 255, .26) !important; }
+.fav.is-on { background: rgba(255, 255, 255, .22) !important; color: #fff !important; }
+.fav.is-on svg { fill: currentColor; }
+
+/* Рамка поиска: градиент из угла в угол, мягче */
+.search:focus-within { background: linear-gradient(var(--surface-2), var(--surface-2)) padding-box, linear-gradient(135deg, rgba(255, 106, 19, .6), rgba(176, 77, 255, .55)) border-box !important; }

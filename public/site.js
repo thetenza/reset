@@ -37,7 +37,6 @@ document.querySelectorAll('[data-confirm]').forEach((b) => b.addEventListener('c
   const current = () => root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   document.querySelectorAll('[data-theme-toggle]').forEach((b) => b.addEventListener('click', () => {
     const next = current() === 'dark' ? 'light' : 'dark';
-    b.classList.remove('is-flip'); void b.offsetWidth; b.classList.add('is-flip');
     root.dataset.theme = next;
     try { localStorage.setItem('reset:theme', next); } catch {}
   }));
@@ -64,3 +63,18 @@ document.querySelectorAll('[data-accent-toggle]').forEach((b) => b.addEventListe
   if (green) root.dataset.accent = 'green'; else delete root.dataset.accent;
   try { localStorage.setItem('reset:accent', green ? 'green' : 'orange'); } catch {}
 }));
+
+// Язык и валюта (пока только визуально — выбор запоминается)
+document.querySelectorAll('[data-pref]').forEach((dd) => {
+  const key = `reset:${dd.dataset.pref}`;
+  const set = (btn) => {
+    dd.querySelectorAll('[data-val]').forEach((b) => b.classList.toggle('is-on', b === btn));
+    dd.querySelector('[data-pref-label]').textContent = btn.textContent;
+  };
+  try { const v = localStorage.getItem(key); const b = v && dd.querySelector(`[data-val="${v}"]`); if (b) set(b); } catch {}
+  dd.querySelectorAll('[data-val]').forEach((b) => b.addEventListener('click', () => {
+    set(b); dd.removeAttribute('open');
+    try { localStorage.setItem(key, b.dataset.val); } catch {}
+  }));
+});
+document.addEventListener('click', (e) => document.querySelectorAll('details.dd[open]').forEach((d) => { if (!d.contains(e.target)) d.removeAttribute('open'); }));
