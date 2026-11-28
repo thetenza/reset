@@ -1016,3 +1016,8 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .region2-btn { padding: 0 9px 0 6px !important; }
 .pcard, .spot { cursor: pointer; } .fav { cursor: pointer; z-index: 2; }
 .pcard-title { font-weight: 500 !important; font-size: .98rem !important; }
+
+/* Шрифт цен — Onest Bold: открытые цифры с крупными «дырками» у 9, 6, 0 */
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-latin-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+20BD, U+2212; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-cyrillic-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0400-045F, U+20BD; }
+.pcard-price, .spot-price, .spot-over .spot-price, .price, .tp2-btn { font-family: "Onest", var(--font) !important; font-weight: 700 !important; letter-spacing: -.01em !important; }
