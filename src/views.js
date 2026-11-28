@@ -49,6 +49,15 @@ const glyphs = {
   play: '<circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4z"/>',
   apple: '<path d="M16 3c-1 0-2.5.8-3 2 1.2.1 2.6-.7 3-2zM12 7c-1-.6-2-1-3-1-3 0-5 2.5-5 6 0 4 3 9 5 9 1 0 1.5-.5 3-.5s2 .5 3 .5c2 0 4-4 4.5-6-2-1-3-2.6-3-4.5 0-1.6.9-2.9 2-3.6C17.6 6.4 16.4 6 15 6c-1 0-2 .4-3 1z"/>',
 };
+// Флаги для выбора языка
+const flags = {
+  ru: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect y=".667" width="3" height=".667" fill="#1c57d6"/><rect y="1.333" width="3" height=".667" fill="#e0322b"/></svg>',
+  en: '<svg viewBox="0 0 60 30"><clipPath id="uk"><path d="M0 0v30h60V0z"/></clipPath><g clip-path="url(#uk)"><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" stroke="#C8102E" stroke-width="3"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></g></svg>',
+  es: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#c60b1e"/><rect y=".5" width="3" height="1" fill="#ffc400"/></svg>',
+  de: '<svg viewBox="0 0 3 2"><rect width="3" height=".667" fill="#000"/><rect y=".667" width="3" height=".667" fill="#dd0000"/><rect y="1.333" width="3" height=".667" fill="#ffce00"/></svg>',
+  pt: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#da291c"/><rect width="1.2" height="2" fill="#046a38"/><circle cx="1.2" cy="1" r=".32" fill="#ffe900"/></svg>',
+};
+const langs = [['ru', 'Русский'], ['en', 'English'], ['es', 'Español'], ['de', 'Deutsch'], ['pt', 'Português']];
 const glyph = (name, size = 22) => svgIcon(glyphs[name] || glyphs.bolt, size);
 // Значки сервисов во вкладках пополнения (упрощённые, заливкой)
 const brandIco = {
@@ -61,7 +70,7 @@ const brandIco = {
 };
 
 const salesLabel = (n) => (n == null ? null : n < 100 ? 'Меньше 100 продаж' : `${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'продажа', 'продажи', 'продаж')}`);
-const salesShort = (n) => (n == null ? null : n < 100 ? 'Купили менее 100 раз' : `Купили ${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'раз', 'раза', 'раз')}`);
+const salesShort = (n) => (n == null ? null : n < 100 ? '<100 продаж' : `${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'продажа', 'продажи', 'продаж')}`);
 const plural = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
 
 // ---------- Каркас ----------
@@ -84,7 +93,7 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
   <div class="wrap header-row">
     <a class="logo" href="/" aria-label="${config.brand} — на главную">${logo()}</a>
     <details class="catalog-menu">
-      <summary class="btn btn-catalog"><span class="cat-ico-wrap" aria-hidden="true"><span class="ci-grid">${icon.grid}</span><span class="ci-close">${svgIcon('<path d="M6 6l12 12M18 6L6 18"/>', 18)}</span></span><span>Каталог</span></summary>
+      <summary class="btn btn-catalog"><span class="cat-ico-wrap" aria-hidden="true"><span class="ci-grid">${icon.grid}</span><span class="ci-close">${svgIcon('<path d="M6 6l12 12M18 6L6 18"/>', 18)}</span></span><span class="cat-label">Каталог</span></summary>
       <div class="catalog-pop">
         ${categories.map((c) => html`<a class="catalog-item" href="/c/${c.slug}"><span class="cat-ico cat-ico-${c.theme}">${c.name.slice(0, 1)}</span><span><b>${c.name}</b>${c.short ? html`<small>${c.short}</small>` : ''}</span></a>`)}
       </div>
@@ -93,16 +102,18 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
       ${icon.search}<input type="search" name="q" value="${q}" placeholder="Найти игру, подписку или сервис" aria-label="Поиск товаров" minlength="2" maxlength="80">
     </form>
     <div class="head-right">
-      <div class="head-top">
-        <details class="dd mini-dd" data-pref="lang"><summary class="mini-pill"><span data-pref-label>Русский</span>${icon.chevD}</summary>
-          <div class="dd-pop dd-right">${[['ru', 'Русский'], ['en', 'English'], ['es', 'Español'], ['de', 'Deutsch'], ['pt', 'Português']].map(([k, v], i) => html`<button type="button" data-val="${k}" class="${i ? '' : 'is-on'}">${v}</button>`)}</div></details>
-        <details class="dd mini-dd" data-pref="cur"><summary class="mini-pill"><span data-pref-label>RUB ₽</span>${icon.chevD}</summary>
-          <div class="dd-pop dd-right">${[['RUB', 'RUB ₽'], ['USD', 'USD $'], ['EUR', 'EUR €']].map(([k, v], i) => html`<button type="button" data-val="${k}" class="${i ? '' : 'is-on'}">${v}</button>`)}</div></details>
-        <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
-      </div>
-      <nav class="head-bottom" aria-label="Аккаунт">
-        <a href="${user ? '/account' : '/login'}" class="hb">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
-      </nav>
+      <details class="region2" data-region>
+        <summary class="region2-btn" aria-label="Язык и валюта"><span class="flag" data-region-flag>${raw(flags.ru)}</span><span data-region-label>RU · RUB ₽</span>${icon.chevD}</summary>
+        <div class="region2-pop">
+          <div class="r2-title">Язык</div>
+          <div class="r2-list">${langs.map(([k, v], i) => html`<button type="button" class="r2-opt ${i ? '' : 'is-on'}" data-lang="${k}"><span class="flag">${raw(flags[k])}</span>${v}</button>`)}</div>
+          <div class="r2-title">Валюта</div>
+          <div class="r2-list r2-cur">${[['RUB', '₽', 'Рубль'], ['USD', '$', 'Доллар'], ['EUR', '€', 'Евро']].map(([k, sy, n], i) => html`<button type="button" class="r2-opt ${i ? '' : 'is-on'}" data-cur="${k}" data-sym="${sy}"><b>${sy}</b>${k} · ${n}</button>`)}</div>
+          <p class="r2-note muted small">Перевод и другие валюты появятся позже.</p>
+        </div>
+      </details>
+      <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
+      <a href="${user ? '/account' : '/login'}" class="hb hb-login">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
     </div>
   </div>
   ${!home && categories.length ? html`<nav class="wrap quicknav" aria-label="Категории">

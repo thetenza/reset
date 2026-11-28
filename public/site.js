@@ -64,17 +64,26 @@ document.querySelectorAll('[data-accent-toggle]').forEach((b) => b.addEventListe
   try { localStorage.setItem('reset:accent', green ? 'green' : 'orange'); } catch {}
 }));
 
-// Язык и валюта (пока только визуально — выбор запоминается)
-document.querySelectorAll('[data-pref]').forEach((dd) => {
-  const key = `reset:${dd.dataset.pref}`;
-  const set = (btn) => {
-    dd.querySelectorAll('[data-val]').forEach((b) => b.classList.toggle('is-on', b === btn));
-    dd.querySelector('[data-pref-label]').textContent = btn.textContent;
+// Язык и валюта — один блок (пока только визуально, выбор запоминается)
+(() => {
+  const box = document.querySelector('[data-region]');
+  if (!box) return;
+  const flag = box.querySelector('[data-region-flag]'), label = box.querySelector('[data-region-label]');
+  const st = { lang: 'ru', cur: 'RUB', sym: '₽' };
+  try { Object.assign(st, JSON.parse(localStorage.getItem('reset:region') || '{}')); } catch {}
+  const render = () => {
+    box.querySelectorAll('[data-lang]').forEach((b) => { const on = b.dataset.lang === st.lang; b.classList.toggle('is-on', on); if (on) flag.innerHTML = b.querySelector('.flag').innerHTML; });
+    box.querySelectorAll('[data-cur]').forEach((b) => b.classList.toggle('is-on', b.dataset.cur === st.cur));
+    label.textContent = `${st.lang.toUpperCase()} · ${st.cur} ${st.sym}`;
+    try { localStorage.setItem('reset:region', JSON.stringify(st)); } catch {}
   };
-  try { const v = localStorage.getItem(key); const b = v && dd.querySelector(`[data-val="${v}"]`); if (b) set(b); } catch {}
-  dd.querySelectorAll('[data-val]').forEach((b) => b.addEventListener('click', () => {
-    set(b); dd.removeAttribute('open');
-    try { localStorage.setItem(key, b.dataset.val); } catch {}
-  }));
-});
+  box.addEventListener('click', (e) => {
+    const l = e.target.closest('[data-lang]'), c = e.target.closest('[data-cur]');
+    if (l) st.lang = l.dataset.lang;
+    if (c) { st.cur = c.dataset.cur; st.sym = c.dataset.sym; }
+    if (l || c) render();
+  });
+  document.addEventListener('click', (e) => { if (!box.contains(e.target)) box.removeAttribute('open'); });
+  render();
+})();
 document.addEventListener('click', (e) => document.querySelectorAll('details.dd[open]').forEach((d) => { if (!d.contains(e.target)) d.removeAttribute('open'); }));
