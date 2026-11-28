@@ -1015,3 +1015,4 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .region2-btn [hidden] { display: none !important; }
 .region2-btn { padding: 0 9px 0 6px !important; }
 .pcard, .spot { cursor: pointer; } .fav { cursor: pointer; z-index: 2; }
+.pcard-title { font-weight: 500 !important; font-size: .98rem !important; }

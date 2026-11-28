@@ -8,7 +8,7 @@
   const dots = [...root.querySelectorAll('.hdot')];
   const n = slides.length;
   if (n < 2) return;
-  const MS = 6000, ANIM = 450, GAP = 8;
+  const MS = 6000, ANIM = 450, GAP = 6;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur = 0, timer = null, busy = false;
   const W = () => stage.clientWidth + GAP;
