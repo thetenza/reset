@@ -929,3 +929,20 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 @media (max-width: 760px) { .btn-catalog span.cat-ico-wrap, .btn-catalog .cat-ico-wrap span { display: grid !important; } .btn-catalog .cat-label { display: none; } }
 @media (max-width: 760px) { .catalog-menu .btn-catalog { padding: 0 12px; min-width: 0; } .head-right { margin-left: auto; gap: 6px; } .region2-btn { padding: 0 8px; gap: 4px; } .logo-svg { height: 26px; } }
 @media (max-width: 360px) { .region2-btn svg:last-child { display: none; } .header-row { gap: 8px; } .logo-svg { height: 22px; } .catalog-menu .btn-catalog { padding: 0 10px; min-height: 40px; } .hb-login { padding: 4px; } }
+
+/* ===== правки 9: компактнее, как у маркетплейсов ===== */
+.wrap { max-width: 1480px; padding: 0 24px; }
+@media (max-width: 760px) { .wrap { padding: 0 16px; } }
+.pgrid { column-gap: 14px !important; row-gap: 18px !important; }
+.pcard { border-radius: 14px; }
+.pcard-media { border-radius: 14px 14px 0 0 !important; }
+.pcard-body { padding: 8px 10px 10px !important; gap: 1px !important; }
+.pcard-price { font-size: 1.12rem !important; }
+.pcard-title { font-size: .84rem !important; line-height: 1.28 !important; min-height: 2.56em !important; font-weight: 500 !important; }
+.pcard-sales { font-size: .72rem !important; }
+.pcard .btn-buy { min-height: 32px !important; margin-top: 8px !important; font-size: .84rem !important; border-radius: 9px !important; }
+.fav { width: 30px; height: 30px; top: 7px; right: 7px; }
+.fav svg { width: 15px; height: 15px; }
+.fav::after { width: 15px; height: 15px; }
+.section { padding-top: 36px; }
+#popular .section-head { margin-bottom: 16px; }
