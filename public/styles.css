@@ -720,3 +720,12 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .topup2[data-brand="gta"] .ttab.is-on .ttab-ico { color: #ff4fb3; }
 .spot.spot-big .spot-buy-big { background: #fff !important; color: #121212 !important; }
 .spot.spot-big .spot-buy-big:hover { background: #e6e6ea !important; }
+/* Большой товар — ровный квадрат; правая колонка подстраивается под его высоту */
+.spot-big { aspect-ratio: 1 / 1; min-height: 0 !important; height: auto; align-self: start; }
+.spot-col { align-content: stretch; }
+.spot-col .spot { min-height: 0 !important; }
+/* Карточка во всю высоту блока; картинка — ровный квадрат сверху, низ растворяется в фоне */
+.spot-big { aspect-ratio: auto; align-self: stretch; min-height: 300px !important; }
+.spot-big .spot-media { position: absolute !important; inset: 0 0 auto 0 !important; height: auto !important; aspect-ratio: 1 / 1 !important; }
+.spot-big .spot-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.spot-big .spot-media::after { background: linear-gradient(180deg, rgba(18, 12, 24, 0) 55%, rgba(18, 12, 24, .7) 82%, #120c18 100%) !important; }
