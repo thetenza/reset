@@ -8,10 +8,10 @@
   const dots = [...root.querySelectorAll('.hdot')];
   const n = slides.length;
   if (n < 2) return;
-  const MS = 6000, ANIM = 450;
+  const MS = 6000, ANIM = 450, GAP = 16;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur = 0, timer = null, busy = false;
-  const W = () => stage.clientWidth;
+  const W = () => stage.clientWidth + GAP;
   const idx = (i) => (i + n) % n;
 
   // Раскладка: текущий в центре, соседи по бокам (со сдвигом dx при перетаскивании)

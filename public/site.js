@@ -74,7 +74,7 @@ document.querySelectorAll('[data-accent-toggle]').forEach((b) => b.addEventListe
   const render = () => {
     box.querySelectorAll('[data-lang]').forEach((b) => { const on = b.dataset.lang === st.lang; b.classList.toggle('is-on', on); if (on) flag.innerHTML = b.querySelector('.flag').innerHTML; });
     box.querySelectorAll('[data-cur]').forEach((b) => b.classList.toggle('is-on', b.dataset.cur === st.cur));
-    label.textContent = `${st.lang.toUpperCase()} · ${st.cur} ${st.sym}`;
+    label.textContent = `${st.lang.toUpperCase()} · ${st.sym}`;
     try { localStorage.setItem('reset:region', JSON.stringify(st)); } catch {}
   };
   box.addEventListener('click', (e) => {

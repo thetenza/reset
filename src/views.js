@@ -103,7 +103,7 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
     </form>
     <div class="head-right">
       <details class="region2" data-region>
-        <summary class="region2-btn" aria-label="Язык и валюта"><span class="flag" data-region-flag>${raw(flags.ru)}</span><span data-region-label>RU · RUB ₽</span>${icon.chevD}</summary>
+        <summary class="region2-btn" aria-label="Язык и валюта">${svgIcon('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z"/>', 16)}<span class="flag" data-region-flag hidden>${raw(flags.ru)}</span><span data-region-label>RU · ₽</span></summary>
         <div class="region2-pop">
           <div class="r2-title">Язык</div>
           <div class="r2-list">${langs.map(([k, v], i) => html`<button type="button" class="r2-opt ${i ? '' : 'is-on'}" data-lang="${k}"><span class="flag">${raw(flags[k])}</span>${v}</button>`)}</div>
