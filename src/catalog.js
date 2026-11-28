@@ -44,7 +44,7 @@ const ED = [{ id: '1', label: 'Издание', type: 'radio', required: true, c
   { id: '11', text: 'Standard', modify: 0, modifyType: null, isDefault: true },
   { id: '12', text: 'Deluxe', modify: 1500, modifyType: null, isDefault: false }] }];
 const DEMO = [
-  demoItem(1, 'Grand Theft Auto VI', 7990, true, { Платформа: 'PlayStation', Регион: 'Турция', Издание: 'Standard' }, 'Ключ', 'Хит', 1240, ED, { images: ['/static/img/tiles/gta.webp'] }),
+  demoItem(1, 'Grand Theft Auto VI ключ PlayStation', 7990, true, { Платформа: 'PlayStation', Регион: 'Турция', Издание: 'Standard' }, 'Ключ', 'Хит', 1240, ED, { images: ['/static/img/tiles/gta.webp'] }),
   demoItem(2, 'GTA VI · активация на ваш аккаунт PS5', 7925, true, { Платформа: 'PlayStation', Регион: 'Индия', Издание: 'Standard' }, 'Активация', null, 860),
   demoItem(3, 'GTA VI · Xbox Series X|S, выбор издания', 7299, true, { Платформа: 'Xbox', Регион: 'Глобальный', Издание: 'Standard' }, 'Активация', 'Новинка', 3175, ED),
   demoItem(4, 'GTA VI · Xbox, быстрая доставка', 7290, true, { Платформа: 'Xbox', Регион: 'Турция', Издание: 'Standard' }, 'Активация', null, 1215),
@@ -53,18 +53,18 @@ const DEMO = [
   demoItem(7, 'пополнение PSN для GTA', 1990, true, { Платформа: 'PlayStation', Регион: 'Турция' }, 'Пополнение', null, 2210),
   demoItem(8, 'GTA Online · Shark Card', 990, 'error', { Платформа: 'PC' }, 'Код', null, null),
   // Витрина главной: разные разделы (картинки — ваши мини-баннеры или нейтральные заглушки)
-  demoItem(9, 'ChatGPT Plus', 2390, true, { Срок: '1 месяц' }, 'Подписка', null, 64, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/gpt.webp'], featured: true }),
-  demoItem(10, 'Spotify Premium', 490, true, { Срок: '1 месяц' }, 'Подписка', null, 380, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/spotify.webp'], featured: true }),
-  demoItem(11, 'Пополнение Steam', 100, true, { Платформа: 'Steam' }, 'Пополнение', null, 1240, [], { short: 'Ключ пополнения баланса', category_id: 'cat_topup', images: ['/static/img/tiles/steam.webp'], featured: true }),
-  demoItem(12, 'Robux для Roblox', 390, true, {}, 'Валюта', null, 2100, [], { short: 'Подарочная карта', category_id: 'cat_games', images: ['/static/img/tiles/roblox.webp'], featured: true }),
-  demoItem(13, 'Apple Gift Card', 990, true, {}, 'Карта', null, 40, [], { short: 'Подарочная карта', category_id: 'cat_topup', images: ['/demo/tile/apple.svg'], featured: true }),
-  demoItem(14, 'Xbox Game Pass', 890, true, { Срок: '1 месяц' }, 'Подписка', null, 240, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/xbox.webp'], featured: true }),
-  demoItem(15, 'Claude Pro', 2490, true, { Срок: '1 месяц' }, 'Подписка', null, 55, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/claude.webp'], featured: true }),
-  demoItem(16, 'Telegram Stars', 190, true, {}, 'Пополнение', null, 860, [], { short: 'Звёзды в Telegram', category_id: 'cat_topup', images: ['/demo/tile/telegram.svg'], featured: true }),
-  demoItem(17, 'Minecraft Java & Bedrock', 1590, true, { Платформа: 'PC' }, 'Ключ', null, 680, [], { short: 'Java & Bedrock Edition', category_id: 'cat_games', images: ['/demo/tile/minecraft.svg'], featured: true }),
-  demoItem(18, 'Алмазы Brawl Stars', 290, true, {}, 'Валюта', null, 420, [], { short: 'Пополнение аккаунта', category_id: 'cat_games', images: ['/demo/tile/brawl.svg'], featured: true }),
-  demoItem(19, 'Пополнение Clash Royale', 390, true, {}, 'Валюта', null, 310, [], { short: 'Пополнение аккаунта', category_id: 'cat_games', images: ['/demo/tile/clash.svg'], featured: true }),
-  demoItem(20, 'Пополнение PlayStation Network', 990, true, { Платформа: 'PlayStation' }, 'Пополнение', null, 90, [], { short: 'Подарочная карта PSN', category_id: 'cat_topup', images: ['/static/img/tiles/ps.webp'], featured: true }),
+  demoItem(9, 'ChatGPT Plus подписка на месяц', 2390, true, { Срок: '1 месяц' }, 'Подписка', null, 64, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/gpt.webp'], featured: true }),
+  demoItem(10, 'Spotify Premium подписка на месяц', 490, true, { Срок: '1 месяц' }, 'Подписка', null, 380, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/spotify.webp'], featured: true }),
+  demoItem(11, 'Пополнение Steam на любую сумму', 100, true, { Платформа: 'Steam' }, 'Пополнение', null, 1240, [], { short: 'Ключ пополнения баланса', category_id: 'cat_topup', images: ['/static/img/tiles/steam.webp'], featured: true }),
+  demoItem(12, 'Robux для Roblox подарочная карта', 390, true, {}, 'Валюта', null, 2100, [], { short: 'Подарочная карта', category_id: 'cat_games', images: ['/static/img/tiles/roblox.webp'], featured: true }),
+  demoItem(13, 'Apple Gift Card подарочная карта', 990, true, {}, 'Карта', null, 40, [], { short: 'Подарочная карта', category_id: 'cat_topup', images: ['/demo/tile/apple.svg'], featured: true }),
+  demoItem(14, 'Xbox Game Pass Ultimate 1 месяц', 890, true, { Срок: '1 месяц' }, 'Подписка', null, 240, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/xbox.webp'], featured: true }),
+  demoItem(15, 'Claude Pro подписка на месяц', 2490, true, { Срок: '1 месяц' }, 'Подписка', null, 55, [], { short: 'Подписка на 1 месяц', category_id: 'cat_subs', images: ['/static/img/tiles/claude.webp'], featured: true }),
+  demoItem(16, 'Telegram Stars на ваш аккаунт', 190, true, {}, 'Пополнение', null, 860, [], { short: 'Звёзды в Telegram', category_id: 'cat_topup', images: ['/demo/tile/telegram.svg'], featured: true }),
+  demoItem(17, 'Minecraft Java & Bedrock для ПК', 1590, true, { Платформа: 'PC' }, 'Ключ', null, 680, [], { short: 'Java & Bedrock Edition', category_id: 'cat_games', images: ['/demo/tile/minecraft.svg'], featured: true }),
+  demoItem(18, 'Алмазы Brawl Stars на аккаунт', 290, true, {}, 'Валюта', null, 420, [], { short: 'Пополнение аккаунта', category_id: 'cat_games', images: ['/demo/tile/brawl.svg'], featured: true }),
+  demoItem(19, 'Гемы Clash Royale на аккаунт', 390, true, {}, 'Валюта', null, 310, [], { short: 'Пополнение аккаунта', category_id: 'cat_games', images: ['/demo/tile/clash.svg'], featured: true }),
+  demoItem(20, 'Карта пополнения PlayStation', 990, true, { Платформа: 'PlayStation' }, 'Пополнение', null, 90, [], { short: 'Подарочная карта PSN', category_id: 'cat_topup', images: ['/static/img/tiles/ps.webp'], featured: true }),
 ];
 // Три главных товара для блока на главной (в демо). Реальные задаются в config/spotlight.json по адресам товаров.
 export const DEMO_SPOTLIGHT = ['demo-1', 'demo-9', 'demo-10'];

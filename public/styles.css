@@ -746,3 +746,68 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .tp2-chips { margin-left: 126px !important; }
 @media (max-width: 560px) { .tp2-tabs { grid-template-columns: repeat(3, 1fr) !important; } .tp2-row2 { grid-template-columns: 1fr; gap: 4px; } .tp2-chips { margin-left: 0 !important; } }
 .ttab-txt b { font-size: .64rem !important; letter-spacing: -.01em; overflow: visible !important; text-overflow: clip !important; }
+
+/* ===== правки 4 ===== */
+/* Каталог: тоньше шрифт, иконка меняется на крестик при открытии */
+.catalog-menu .btn-catalog { font-weight: 500; letter-spacing: .01em; }
+.cat-ico-wrap { position: relative; width: 18px; height: 18px; display: inline-block; }
+.cat-ico-wrap > span { position: absolute; inset: 0; display: grid; place-items: center; transition: transform .3s cubic-bezier(.3, 1.3, .5, 1), opacity .2s; }
+.ci-close { opacity: 0; transform: rotate(-90deg) scale(.6); }
+.catalog-menu[open] .ci-grid { opacity: 0; transform: rotate(90deg) scale(.6); }
+.catalog-menu[open] .ci-close { opacity: 1; transform: none; }
+.catalog-pop { animation: pop .22s cubic-bezier(.2, .8, .2, 1); transform-origin: top left; }
+@keyframes pop { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+
+/* Переключатель темы: солнце и луна видны всегда, подсвеченный «бегунок» под активным */
+.eclipse { width: 54px; height: 28px; }
+.ec-track { background: linear-gradient(90deg, rgba(255, 106, 19, .14), rgba(140, 90, 255, .16)) !important; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 12%, transparent) !important; }
+.ec-knob { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 4px rgba(0, 0, 0, .2); transition: transform .4s cubic-bezier(.3, 1.3, .5, 1); }
+.ec-sun, .ec-moon { width: 14px !important; height: 14px !important; top: 7px !important; transform: none !important; transition: opacity .3s, box-shadow .3s !important; }
+.ec-sun { left: 7px !important; box-shadow: 0 0 8px 2px rgba(255, 106, 19, .6) !important; }
+.ec-moon { left: auto !important; right: 7px; background: radial-gradient(circle at 60% 40%, #c3a6ff, #6a3ccf 70%) !important; opacity: .45; }
+:root[data-theme="dark"] .ec-knob { transform: translateX(26px); }
+:root[data-theme="dark"] .ec-sun { opacity: .45; box-shadow: none !important; }
+:root[data-theme="dark"] .ec-moon { opacity: 1; box-shadow: 0 0 8px 2px rgba(150, 110, 255, .65); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ec-knob { transform: translateX(26px); }
+  :root:not([data-theme="light"]) .ec-sun { opacity: .45; box-shadow: none !important; }
+  :root:not([data-theme="light"]) .ec-moon { opacity: 1; box-shadow: 0 0 8px 2px rgba(150, 110, 255, .65); }
+}
+
+/* Точки баннера длиннее */
+.hdot { width: 36px; height: 6px; }
+.hero-dots { gap: 8px; padding: 7px 10px; }
+
+/* Все «Купить» в блоке главных товаров одинаковые (чёрные / белые по теме), на картинке — с тонкой рамкой */
+.spot.spot-big .spot-buy-big { background: var(--buy) !important; color: var(--buy-ink) !important; box-shadow: 0 0 0 1px rgba(255, 255, 255, .22) !important; width: auto; }
+.spot.spot-big .spot-buy-big:hover { background: var(--buy-hover) !important; }
+
+/* Кадрирование: маленькие главные товары — по верху, мини-баннеры — чуть ниже центра */
+.spot-col .spot-media img { object-position: center top; }
+.tile img { object-position: center 22%; }
+
+/* Названия — в две строки, карточки под двухстрочные названия */
+.pcard-title { -webkit-line-clamp: 2 !important; min-height: 2.6em !important; line-height: 1.3; }
+.pcard-sub { -webkit-line-clamp: 1 !important; min-height: 1.3em !important; }
+.pcard-sales { font-size: .76rem; opacity: .8; }
+
+/* Пополнение: Steam — от тёмного к светлому, мягче; GTA — розовый → жёлтый, приглушённо */
+.topup2[data-brand="steam"] { --b: #3d82c4; --bgrad: linear-gradient(135deg, #22466e 0%, #2d6aa5 55%, #4a96d8 100%); }
+.topup2[data-brand="gta"] { --b: #e98ac4; --bgrad: linear-gradient(135deg, #e47fbf 0%, #ee9fb0 50%, #f3cf8c 100%); }
+.topup2[data-brand="gta"] { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 30px rgba(233, 138, 196, .3) !important; border: 2px solid transparent !important;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .32)) padding-box, linear-gradient(135deg, #ea8cc6, #f0b7a8, #f3d08c) border-box !important; }
+:root[data-theme="dark"] .topup2[data-brand="gta"] { background: linear-gradient(160deg, rgba(48, 40, 62, .9), rgba(16, 14, 24, .9)) padding-box, linear-gradient(135deg, #ea8cc6, #f0b7a8, #f3d08c) border-box !important; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .topup2[data-brand="gta"] { background: linear-gradient(160deg, rgba(48, 40, 62, .9), rgba(16, 14, 24, .9)) padding-box, linear-gradient(135deg, #ea8cc6, #f0b7a8, #f3d08c) border-box !important; } }
+.topup2[data-brand="gta"] .ttab.is-on { background: linear-gradient(135deg, rgba(234, 140, 198, .22), rgba(243, 208, 140, .22)) !important; border-color: #ea8cc6 !important; }
+.topup2[data-brand="gta"] .tp2-btn { color: #3a1830; }
+.spot-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+@media (max-width: 760px) { .pcard-title, .spot-title { font-size: .84rem !important; line-height: 1.25; } .pcard-title { min-height: 2.5em !important; } .spot-col .spot-title { font-size: .8rem !important; } .spot-big .spot-title { font-size: .9rem !important; } }
+/* Мобильные поправки (идут последними, чтобы не перебивались) */
+@media (max-width: 640px) { .hero-stage { aspect-ratio: auto !important; height: 300px; width: 100%; } }
+@media (max-width: 620px) {
+  .spot-box { grid-template-columns: minmax(0, 1fr) !important; }
+  .spot-big { min-height: 0 !important; aspect-ratio: 1 / 1.12; }
+  .spot-col .spot .spot-media { width: 104px; }
+}
+@media (max-width: 360px) { .pcard-title { font-size: .76rem !important; } .spot-title { font-size: .78rem !important; } .pgrid { column-gap: 8px; } .pcard-body { padding: 8px 8px 10px; } }
+@media (max-width: 400px) { .spot-title { -webkit-line-clamp: 3 !important; } }

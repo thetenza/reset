@@ -10,7 +10,7 @@ const S = config.support;
 // ---------- Иконки и знак ----------
 const mark = (cls = 'mark') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.markW} ${LOGO2.h}" aria-hidden="true"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></svg>`);
 // Полный логотип: знак — фирменный оранжевый, надпись — цвет текста (белая в тёмной теме)
-const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.w} ${LOGO2.h}" role="img" aria-label="${config.brand}"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/><path fill="currentColor" fill-rule="evenodd" d="${LOGO2.black}"/></svg>`);
+const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 -22 ${LOGO2.w} ${LOGO2.h + 44}" role="img" aria-label="${config.brand}"><g transform="translate(206.5 223.5) scale(1.1) translate(-206.5 -214.5)"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></g><path fill="currentColor" fill-rule="evenodd" d="${LOGO2.black}"/></svg>`);
 const svgIcon = (d, size = 20) => raw(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`);
 const icon = {
   arrow: svgIcon('<path d="M5 12h14M13 6l6 6-6 6"/>', 16),
@@ -56,7 +56,7 @@ const brandIco = {
 };
 
 const salesLabel = (n) => (n == null ? null : n < 100 ? 'Меньше 100 продаж' : `${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'продажа', 'продажи', 'продаж')}`);
-const salesShort = (n) => (n == null ? null : n < 100 ? '<100' : new Intl.NumberFormat('ru-RU').format(n));
+const salesShort = (n) => (n == null ? null : n < 100 ? 'Купили менее 100 раз' : `Купили ${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'раз', 'раза', 'раз')}`);
 const plural = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
 
 // ---------- Каркас ----------
@@ -79,7 +79,7 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
   <div class="wrap header-row">
     <a class="logo" href="/" aria-label="${config.brand} — на главную">${logo()}</a>
     <details class="catalog-menu">
-      <summary class="btn btn-catalog">${icon.grid}<span>Каталог</span></summary>
+      <summary class="btn btn-catalog"><span class="cat-ico-wrap" aria-hidden="true"><span class="ci-grid">${icon.grid}</span><span class="ci-close">${svgIcon('<path d="M6 6l12 12M18 6L6 18"/>', 18)}</span></span><span>Каталог</span></summary>
       <div class="catalog-pop">
         ${categories.map((c) => html`<a class="catalog-item" href="/c/${c.slug}"><span class="cat-ico cat-ico-${c.theme}">${c.name.slice(0, 1)}</span><span><b>${c.name}</b>${c.short ? html`<small>${c.short}</small>` : ''}</span></a>`)}
       </div>
@@ -91,7 +91,7 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
       <div class="head-top">
         <span class="mini-pill"><span class="flag-ru" aria-hidden="true"></span>Русский</span>
         <span class="mini-pill">RUB ₽</span>
-        <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
+        <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-knob"></span><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
       </div>
       <nav class="head-bottom" aria-label="Аккаунт">
         <a href="${user ? '/account' : '/login'}" class="hb">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
@@ -140,8 +140,7 @@ export function productCard(p) {
       ${p.state === 'error' ? html`<div class="pcard-price pcard-price-err">Цена уточняется</div>`
         : p.live ? html`<div class="pcard-price">${formatPrice(p.live.price, p.live.currency).replace(',00', '')}</div>` : ''}
       <a class="pcard-title" href="${href}">${p.title}</a>
-      ${p.row.short ? html`<div class="pcard-sub">${p.row.short}</div>` : ''}
-      <div class="pcard-sales" ${sold ? raw(`title="${sold} — по данным Digiseller"`) : ''}>${sold ? html`${svgIcon('<path d="M7 17L17 7M9 7h8v8"/>', 14)} ${salesShort(p.sales)}` : p.row.kind || ''}</div>
+      <div class="pcard-sales" ${sold ? raw(`title="${sold} — по данным Digiseller"`) : ''}>${sold ? salesShort(p.sales) : p.row.kind || ''}</div>
       <a class="btn btn-buy" href="${href}">${p.state === 'available' ? 'Купить' : 'Подробнее'}</a>
     </div>
   </article>`;
@@ -191,9 +190,9 @@ function spotCard(p, big = false) {
       <div class="spot-info">
         ${price ? html`<div class="spot-price">${price}</div>` : html`<div class="spot-price">Цена уточняется</div>`}
         <a class="spot-title" href="${href}">${p.title}</a>
-        ${sold ? html`<div class="spot-sub">${sold}</div>` : ''}
+        ${p.sales != null ? html`<div class="spot-sub">${salesShort(p.sales)}</div>` : ''}
       </div>
-      <a class="btn-buy spot-buy-big" href="${href}">Купить</a>
+      <a class="btn-buy spot-buy spot-buy-big" href="${href}">Купить</a>
     </div>
   </article>`;
   return html`<article class="spot">
@@ -203,7 +202,7 @@ function spotCard(p, big = false) {
         ${price ? html`<div class="spot-price">${price}</div>` : html`<div class="spot-price pcard-price-err">Цена уточняется</div>`}
         <a class="spot-title" href="${href}">${p.title}</a>
         ${p.row.short && !big ? html`<div class="spot-sub">${p.row.short}</div>` : ''}
-        ${sold ? html`<div class="spot-sub">${sold}</div>` : ''}
+        ${p.sales != null ? html`<div class="spot-sub">${salesShort(p.sales)}</div>` : ''}
       </div>
       <a class="btn-buy spot-buy" href="${href}">Купить</a>
     </div>
