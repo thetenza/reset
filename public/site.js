@@ -96,3 +96,11 @@ document.addEventListener('click', (e) => {
   if (!link) return;
   if (e.ctrlKey || e.metaKey || e.button === 1) window.open(link.href, '_blank'); else location.href = link.href;
 });
+
+// Шапка: класс при прокрутке
+(() => {
+  const h = document.querySelector('.site-header');
+  if (!h) return;
+  const on = () => h.classList.toggle('is-scrolled', scrollY > 4);
+  addEventListener('scroll', on, { passive: true }); on();
+})();

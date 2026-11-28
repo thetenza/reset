@@ -1057,3 +1057,8 @@ h1, h2, .cat-h1 { font-weight: 800 !important; letter-spacing: -.02em; }
 .topup2[data-brand="gta"] .tp-chips button.is-on { background: rgba(233, 145, 198, .22) !important; border-color: #e991c6 !important; color: #c94b90 !important; }
 .topup2[data-brand="apple"] .tp-chips button.is-on { color: #7a5fc0 !important; }
 :root[data-theme="dark"] .topup2[data-brand="steam"] .tp-chips button.is-on { color: #8ccaf5 !important; }
+
+/* Шапка при прокрутке: плотный фон и тень, поле поиска не сливается */
+.site-header.is-scrolled { background: color-mix(in srgb, var(--bg) 97%, transparent); box-shadow: 0 1px 0 var(--border), 0 6px 20px rgba(0, 0, 0, .06); }
+.search { background: color-mix(in srgb, var(--text) 6%, var(--bg)) !important; border: 2px solid transparent; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 7%, transparent); }
+.search:focus-within { box-shadow: none; background: linear-gradient(color-mix(in srgb, var(--text) 6%, var(--bg)), color-mix(in srgb, var(--text) 6%, var(--bg))) padding-box, linear-gradient(135deg, rgba(255, 106, 19, .6), rgba(176, 77, 255, .55)) border-box !important; }
