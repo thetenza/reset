@@ -51,11 +51,11 @@ const glyphs = {
 };
 // Флаги для выбора языка
 const flags = {
-  ru: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect y=".667" width="3" height=".667" fill="#1c57d6"/><rect y="1.333" width="3" height=".667" fill="#e0322b"/></svg>',
-  en: '<svg viewBox="0 0 60 30"><clipPath id="uk"><path d="M0 0v30h60V0z"/></clipPath><g clip-path="url(#uk)"><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" stroke="#C8102E" stroke-width="3"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></g></svg>',
-  es: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#c60b1e"/><rect y=".5" width="3" height="1" fill="#ffc400"/></svg>',
-  de: '<svg viewBox="0 0 3 2"><rect width="3" height=".667" fill="#000"/><rect y=".667" width="3" height=".667" fill="#dd0000"/><rect y="1.333" width="3" height=".667" fill="#ffce00"/></svg>',
-  pt: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#da291c"/><rect width="1.2" height="2" fill="#046a38"/><circle cx="1.2" cy="1" r=".32" fill="#ffe900"/></svg>',
+  ru: '<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect y=".667" width="3" height=".667" fill="#1c57d6"/><rect y="1.333" width="3" height=".667" fill="#e0322b"/></svg>',
+  en: '<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 60 30"><clipPath id="uk"><path d="M0 0v30h60V0z"/></clipPath><g clip-path="url(#uk)"><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" stroke="#C8102E" stroke-width="3"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></g></svg>',
+  es: '<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 3 2"><rect width="3" height="2" fill="#c60b1e"/><rect y=".5" width="3" height="1" fill="#ffc400"/></svg>',
+  de: '<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 3 2"><rect width="3" height=".667" fill="#000"/><rect y=".667" width="3" height=".667" fill="#dd0000"/><rect y="1.333" width="3" height=".667" fill="#ffce00"/></svg>',
+  pt: '<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 3 2"><rect width="3" height="2" fill="#da291c"/><rect width="1.2" height="2" fill="#046a38"/><circle cx="1.2" cy="1" r=".32" fill="#ffe900"/></svg>',
 };
 const langs = [['ru', 'Русский'], ['en', 'English'], ['es', 'Español'], ['de', 'Deutsch'], ['pt', 'Português']];
 const glyph = (name, size = 22) => svgIcon(glyphs[name] || glyphs.bolt, size);
