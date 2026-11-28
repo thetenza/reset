@@ -10,7 +10,16 @@ const S = config.support;
 // ---------- Иконки и знак ----------
 const mark = (cls = 'mark') => raw(`<svg class="${cls}" viewBox="0 0 ${LOGO2.markW} ${LOGO2.h}" aria-hidden="true"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></svg>`);
 // Полный логотип: знак — фирменный оранжевый, надпись — цвет текста (белая в тёмной теме)
-const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 -22 ${LOGO2.w} ${LOGO2.h + 44}" role="img" aria-label="${config.brand}"><g transform="translate(206.5 223.5) scale(1.1) translate(-206.5 -214.5)"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></g><path fill="currentColor" fill-rule="evenodd" d="${LOGO2.black}"/></svg>`);
+// Полный логотип: знак R + надпись. Буквы надписи разнесены (G — отступ от знака, LS — межбуквенный интервал)
+const LOGO_WORD = (() => {
+  const subs = LOGO2.black.split(/(?=M)/);
+  const letterOf = [4, 2, 0, 0, 1, 3, 0]; // индекс буквы R-E-S-E-T для каждого контура
+  const G = 46, LS = 26;
+  const groups = [[], [], [], [], []];
+  subs.forEach((d, i) => groups[letterOf[i]].push(d));
+  return { G, LS, w: LOGO2.w + G + LS * 4, paths: groups.map((g, i) => `<path transform="translate(${G + LS * i} 0)" fill="currentColor" fill-rule="evenodd" d="${g.join('')}"/>`).join('') };
+})();
+const logo = (cls = 'logo-svg') => raw(`<svg class="${cls}" viewBox="0 -22 ${LOGO_WORD.w} ${LOGO2.h + 44}" role="img" aria-label="${config.brand}"><g transform="translate(206.5 223.5) scale(1.1) translate(-206.5 -214.5)"><path class="lg1" fill="#ff6a13" fill-rule="evenodd" d="${LOGO2.orange}"/><path class="lg2" fill="#ffa36b" d="${LOGO2.light}"/></g>${LOGO_WORD.paths}</svg>`);
 const svgIcon = (d, size = 20) => raw(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`);
 const icon = {
   arrow: svgIcon('<path d="M5 12h14M13 6l6 6-6 6"/>', 16),

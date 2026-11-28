@@ -37,6 +37,7 @@ document.querySelectorAll('[data-confirm]').forEach((b) => b.addEventListener('c
   const current = () => root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   document.querySelectorAll('[data-theme-toggle]').forEach((b) => b.addEventListener('click', () => {
     const next = current() === 'dark' ? 'light' : 'dark';
+    b.classList.remove('is-flip'); void b.offsetWidth; b.classList.add('is-flip');
     root.dataset.theme = next;
     try { localStorage.setItem('reset:theme', next); } catch {}
   }));

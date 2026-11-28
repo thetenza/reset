@@ -816,3 +816,41 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 /* «Купить» на GTA VI — в цвет GTA, мягкий */
 .spot.spot-big .spot-buy-big { background: linear-gradient(135deg, #e991c6 0%, #f0b4ad 50%, #f2d394 100%) !important; color: #3a1830 !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 6px 18px rgba(233, 145, 198, .3) !important; }
 .spot.spot-big .spot-buy-big:hover { filter: brightness(1.05) !important; }
+
+/* ===== правки 6 ===== */
+/* «Купить» на GTA VI: при наведении остаётся в цветах GTA */
+.spot.spot-big .spot-buy-big:hover { background: linear-gradient(135deg, #ef9fcf 0%, #f4c0b6 50%, #f6dca3 100%) !important; filter: none !important; }
+
+/* Кнопки пополнения: везде тёмный слева → светлый справа (GTA — розовый → жёлтый) */
+.topup2[data-brand="ps"] { --bgrad: linear-gradient(135deg, #0a3a9e 0%, #1f5fe0 55%, #5a8fff 100%); }
+.topup2[data-brand="xbox"] { --bgrad: linear-gradient(135deg, #0d5e17 0%, #17922a 55%, #4fcd5a 100%); }
+.topup2[data-brand="tg"] { --bgrad: linear-gradient(135deg, #136fa8 0%, #1f95d6 55%, #5cc6ff 100%); }
+.topup2[data-brand="apple"] { --bgrad: linear-gradient(135deg, #7c828d 0%, #b3b8c1 55%, #eef0f4 100%); }
+
+/* Тумблер: в светлой теме оранжевое солнце лежит на фиолетовой луне, в тёмной — наоборот; смена с «перекатом» */
+.ec-sun, .ec-moon { transition: transform .55s cubic-bezier(.4, 1.4, .5, 1), box-shadow .4s, z-index 0s .27s !important; }
+.ec-moon { transform: translateX(0) !important; z-index: 1; opacity: 1 !important; }
+.ec-sun { transform: translateX(6px) !important; z-index: 2; }
+:root[data-theme="dark"] .ec-sun { transform: translateX(20px) !important; z-index: 1; }
+:root[data-theme="dark"] .ec-moon { transform: translateX(15px) !important; z-index: 2; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ec-sun { transform: translateX(20px) !important; z-index: 1; }
+  :root:not([data-theme="light"]) .ec-moon { transform: translateX(15px) !important; z-index: 2; }
+}
+.eclipse.is-flip .ec-sun, .eclipse.is-flip .ec-moon { animation: ec-hop .55s ease; }
+@keyframes ec-hop { 50% { scale: .82; } }
+
+/* Подсветка главных товаров — ещё на ~30% мягче */
+.glow-a { opacity: .43 !important; }
+:root[data-theme="dark"] .glow-a { opacity: .33 !important; }
+.showcase .glass.glass-orange { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 1.5px rgba(255, 140, 60, .55), 0 0 18px rgba(255, 106, 19, .22), 0 0 42px rgba(176, 60, 255, .14) !important; }
+
+/* Поиск: при фокусе — рамка оранжево-фиолетовым градиентом */
+.search { border: 2px solid transparent; }
+.search:focus-within { outline: none !important; background: linear-gradient(var(--surface-2), var(--surface-2)) padding-box, linear-gradient(90deg, #ff6a13, #b04dff) border-box; }
+
+/* Карточки: без увеличения картинки, название не красится, шрифт проще */
+.pcard:hover .pcard-media img, .pcard-media img { transform: none !important; transition: none; }
+.pcard:hover .pcard-media { box-shadow: none !important; }
+.pcard-title, .pcard-title:hover, .spot-title:hover { color: var(--text) !important; }
+.pcard-title { font-weight: 600 !important; }
