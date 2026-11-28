@@ -1021,3 +1021,24 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 @font-face { font-family: "Onest"; src: url("/static/fonts/onest-latin-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+20BD, U+2212; }
 @font-face { font-family: "Onest"; src: url("/static/fonts/onest-cyrillic-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0400-045F, U+20BD; }
 .pcard-price, .spot-price, .spot-over .spot-price, .price, .tp2-btn { font-family: "Onest", var(--font) !important; font-weight: 700 !important; letter-spacing: -.01em !important; }
+
+/* ===== Единый шрифт сайта — Onest (обычный, привычный), как у маркетплейсов ===== */
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-latin-400.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+20BD, U+2122, U+2212; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-cyrillic-400.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+2116; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-latin-500.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+20BD, U+2122, U+2212; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-cyrillic-500.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+2116; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-latin-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+20BD, U+2122, U+2212; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-cyrillic-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+2116; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-latin-800.woff2") format("woff2"); font-weight: 800; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+20BD, U+2122, U+2212; }
+@font-face { font-family: "Onest"; src: url("/static/fonts/onest-cyrillic-800.woff2") format("woff2"); font-weight: 800; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+2116; }
+:root { --font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+body, button, input, select, textarea { font-family: var(--font); }
+.pcard-title, .spot-title { font-weight: 400 !important; font-size: .94rem !important; line-height: 1.32 !important; letter-spacing: 0; }
+.spot-col .spot-title { font-size: .9rem !important; }
+.spot-over .spot-title { font-weight: 500 !important; }
+.pcard-sales, .spot-sub { font-weight: 400; }
+h1, h2, .cat-h1 { font-weight: 800 !important; letter-spacing: -.02em; }
+.hs-title { font-weight: 800 !important; }
+.btn, .btn-buy, .tp2-btn, .btn-glass { font-weight: 600 !important; }
+.hb, .tp2-lbl, .tp-help, .tp2-cap, .label, .footer-links a, .ttab-txt b, .dd-btn, .region2-btn, .r2-opt { font-weight: 500 !important; }
+.hs-title { text-wrap: balance; }
