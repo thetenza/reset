@@ -45,6 +45,15 @@ const glyphs = {
   apple: '<path d="M16 3c-1 0-2.5.8-3 2 1.2.1 2.6-.7 3-2zM12 7c-1-.6-2-1-3-1-3 0-5 2.5-5 6 0 4 3 9 5 9 1 0 1.5-.5 3-.5s2 .5 3 .5c2 0 4-4 4.5-6-2-1-3-2.6-3-4.5 0-1.6.9-2.9 2-3.6C17.6 6.4 16.4 6 15 6c-1 0-2 .4-3 1z"/>',
 };
 const glyph = (name, size = 22) => svgIcon(glyphs[name] || glyphs.bolt, size);
+// Значки сервисов во вкладках пополнения (упрощённые, заливкой)
+const brandIco = {
+  steam: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><circle cx="15.5" cy="9" r="3.2" fill="none" stroke="var(--ico-bg,#fff)" stroke-width="1.8"/><circle cx="8.2" cy="15.6" r="2.2" fill="none" stroke="var(--ico-bg,#fff)" stroke-width="1.8"/><path d="M3 13.2l5.2 2.4M10.2 14.6l3.4-3.6" stroke="var(--ico-bg,#fff)" stroke-width="1.8"/></svg>',
+  ps: '<svg viewBox="0 0 24 24" width="22" height="20" aria-hidden="true"><text x="12" y="17" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="13" fill="currentColor" font-style="italic">PS</text></svg>',
+  gta: '<svg viewBox="0 0 24 24" width="22" height="20" aria-hidden="true"><text x="12" y="18" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="16" fill="currentColor">VI</text></svg>',
+  xbox: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7 6.5c2.6 1.8 4.2 3.8 5 5.5.8-1.7 2.4-3.7 5-5.5M6.5 17.5c1.6-2.8 3.6-4.8 5.5-6 1.9 1.2 3.9 3.2 5.5 6" fill="none" stroke="var(--ico-bg,#fff)" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  tg: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M21.5 3.5L2.8 10.7c-.9.4-.9 1.6.1 1.9l4.6 1.5 1.8 5.6c.3.8 1.3 1 1.9.4l2.6-2.5 4.6 3.4c.7.5 1.7.1 1.9-.8L23 4.8c.2-1-.6-1.7-1.5-1.3zM9.6 14l8.2-6.5-6.6 7.6-.3 3z" fill="currentColor"/></svg>',
+  apple: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M16.6 12.8c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8s-1.8-.8-3-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2-1.1 2.8-2.3.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-.9-2.5-3.5zM14.4 5.8c.6-.8 1.1-1.8 1-2.8-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.6-1.3z" fill="currentColor"/></svg>',
+};
 
 const salesLabel = (n) => (n == null ? null : n < 100 ? 'Меньше 100 продаж' : `${new Intl.NumberFormat('ru-RU').format(n)} ${plural(n, 'продажа', 'продажи', 'продаж')}`);
 const salesShort = (n) => (n == null ? null : n < 100 ? '<100' : new Intl.NumberFormat('ru-RU').format(n));
@@ -85,8 +94,6 @@ ${noindex || config.demo ? raw('<meta name="robots" content="noindex">') : ''}
         <button type="button" class="eclipse" data-theme-toggle role="switch" aria-label="Тёмная тема" title="Светлая / тёмная тема"><span class="ec-track"><span class="ec-sun"></span><span class="ec-moon"></span></span></button>
       </div>
       <nav class="head-bottom" aria-label="Аккаунт">
-        <a href="/support" class="hb">${icon.help}<span>Помощь</span></a>
-        <a href="${user ? '/account' : '/login?next=/account'}" class="hb">${icon.box}<span>Заказы</span></a>
         <a href="${user ? '/account' : '/login'}" class="hb">${icon.user}<span>${user ? 'Профиль' : 'Войти'}</span></a>
       </nav>
     </div>
@@ -178,7 +185,18 @@ function spotCard(p, big = false) {
   const img = p.images[0];
   const price = p.live ? formatPrice(p.live.price, p.live.currency).replace(',00', '') : null;
   const sold = salesLabel(p.sales);
-  return html`<article class="spot ${big ? 'spot-big' : ''}">
+  if (big) return html`<article class="spot spot-big">
+    <a class="spot-media" href="${href}" tabindex="-1" aria-hidden="true">${img ? html`<img src="${img}" alt="" loading="lazy">` : html`<span class="media-placeholder">${mark()}</span>`}</a>
+    <div class="spot-over">
+      <div class="spot-info">
+        ${price ? html`<div class="spot-price">${price}</div>` : html`<div class="spot-price">Цена уточняется</div>`}
+        <a class="spot-title" href="${href}">${p.title}</a>
+        ${sold ? html`<div class="spot-sub">${sold}</div>` : ''}
+      </div>
+      <a class="btn-buy spot-buy-big" href="${href}">Купить</a>
+    </div>
+  </article>`;
+  return html`<article class="spot">
     <a class="spot-media" href="${href}" tabindex="-1" aria-hidden="true">${img ? html`<img src="${img}" alt="" loading="lazy">` : html`<span class="media-placeholder">${mark()}</span>`}</a>
     <div class="spot-body">
       <div class="spot-info">
@@ -187,7 +205,7 @@ function spotCard(p, big = false) {
         ${p.row.short && !big ? html`<div class="spot-sub">${p.row.short}</div>` : ''}
         ${sold ? html`<div class="spot-sub">${sold}</div>` : ''}
       </div>
-      <a class="btn-glass btn-glass-dark spot-buy" href="${href}">Купить</a>
+      <a class="btn-buy spot-buy" href="${href}">Купить</a>
     </div>
   </article>`;
 }
@@ -232,7 +250,7 @@ ${banners.length ? html`<section class="wrap hero" data-hero aria-roledescriptio
   ${topup.length ? html`<div class="glass topup2" data-topup data-brand="${topup[0].brand}" aria-label="Пополнение сервисов">
     <div class="tp2-head">${glyph('wallet', 20)}<b>Пополнение сервисов</b></div>
     <div class="tp2-tabs" role="tablist">
-      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ttab-${t.brand} ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${glyph(t.icon, 18)}</span><span class="ttab-txt"><b>${t.name}</b><small>${t.sub || ''}</small></span></button>`)}
+      ${topup.map((t, i) => html`<button type="button" role="tab" class="ttab ttab-${t.brand} ${i === 0 ? 'is-on' : ''}" aria-selected="${i === 0}" data-tab="${i}"><span class="ttab-ico">${raw(brandIco[t.brand] || '')}</span><span class="ttab-txt"><b>${t.name}</b><small>${t.sub || ''}</small></span></button>`)}
     </div>
     <form class="tp2-body" data-topup-form novalidate>
       <div class="tp2-cap">Баланс <span data-tab-name>${topup[0].name}</span></div>

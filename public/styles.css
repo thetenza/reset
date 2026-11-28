@@ -683,3 +683,40 @@ input[type=text], input[type=email], input[type=search], select, textarea { font
 .pcard .btn-buy { background: linear-gradient(180deg, #2a2a30, #0c0c0f) !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18); }
 .pcard .btn-buy:hover { background: linear-gradient(180deg, #3a3a42, #15151a) !important; }
 .pcard-off .btn-buy { opacity: .6; }
+
+/* ===== Вариант 2 · правки 3 ===== */
+/* Кнопки «Купить»: чёрные на светлой теме, белые на тёмной */
+:root { --buy: #121212; --buy-ink: #fff; --buy-hover: #2a2a2e; }
+:root[data-theme="dark"] { --buy: #ffffff; --buy-ink: #121212; --buy-hover: #e6e6ea; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --buy: #ffffff; --buy-ink: #121212; --buy-hover: #e6e6ea; } }
+.pcard .btn-buy, .spot .btn-buy, .btn-buy-main { background: var(--buy) !important; color: var(--buy-ink) !important; border: 0 !important; box-shadow: none !important; filter: none !important; }
+.pcard .btn-buy:hover, .spot .btn-buy:hover, .btn-buy-main:hover { background: var(--buy-hover) !important; }
+.btn-buy { display: inline-flex; align-items: center; justify-content: center; font-weight: 800; text-decoration: none; border-radius: 10px; }
+.spot-buy { width: 100%; min-height: 32px; font-size: .86rem; margin-top: auto; }
+
+/* Подсветка за обоими блоками — по центру, видна в обеих темах */
+.glow { opacity: .75 !important; filter: blur(70px); }
+.glow-a { left: 18%; width: 40%; }
+.glow-b { right: 6%; width: 28%; }
+:root[data-theme="dark"] .glow { opacity: .55 !important; }
+
+/* Большой товар: квадратная картинка, низ уходит в градиент, текст поверх */
+.spot-big.spot { position: relative; display: block; padding: 0; min-height: 100%; border-radius: 18px; overflow: hidden; background: #120c18 !important; }
+.spot-big .spot-media { position: absolute !important; inset: 0; margin: 0 !important; border-radius: 0 !important; aspect-ratio: auto !important; height: 100% !important; }
+.spot-big .spot-media img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.spot-big .spot-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18, 12, 24, 0) 45%, rgba(18, 12, 24, .55) 68%, rgba(18, 12, 24, .95) 100%); backdrop-filter: none; }
+.spot-big { aspect-ratio: auto; min-height: 330px; }
+.spot-over { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; padding: 14px 16px; color: #fff; }
+.spot-over .spot-price { font-size: 1.6rem; color: #fff; }
+.spot-over .spot-title { color: #fff; }
+.spot-over .spot-sub { color: rgba(255, 255, 255, .7); }
+.spot-buy-big { flex: none; min-height: 36px; padding: 0 22px; font-size: .9rem; background: #fff !important; color: #121212 !important; }
+.spot-buy-big:hover { background: #e6e6ea !important; }
+
+/* Пополнение: Steam — фирменный тёмно-синий, вкладки со значками сервисов */
+.topup2[data-brand="steam"] { --b: #2a73b8; --bgrad: linear-gradient(135deg, #2f80c8 0%, #1d4f86 60%, #1b2838 100%); }
+.topup2 .ttab .ttab-ico { width: 24px; display: grid; place-items: center; color: var(--muted); --ico-bg: var(--surface); }
+.topup2 .ttab.is-on .ttab-ico { color: var(--b); }
+.topup2[data-brand="gta"] .ttab.is-on .ttab-ico { color: #ff4fb3; }
+.spot.spot-big .spot-buy-big { background: #fff !important; color: #121212 !important; }
+.spot.spot-big .spot-buy-big:hover { background: #e6e6ea !important; }

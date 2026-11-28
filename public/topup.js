@@ -20,7 +20,7 @@
       btn.textContent = a ? `Купить за ${fmt(Math.round(a * t.rate))} ₽` : 'Купить';
       note.textContent = '';
     } else {
-      btn.textContent = a ? `Купить за ≈ ${fmt(Math.round(a * t.rate))} ₽` : 'Купить';
+      btn.textContent = a ? `Купить за ${fmt(Math.round(a * t.rate))} ₽` : 'Купить';
       note.textContent = out ? `Сумма от ${fmt(t.min)} до ${fmt(t.max)} ${sym[cur.value] || cur.value}` : 'Точная цена — на следующем шаге, до оплаты';
     }
     chips.querySelectorAll('button').forEach((c) => c.classList.toggle('is-on', Number(c.dataset.v) === a));
